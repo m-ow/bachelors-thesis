@@ -127,4 +127,47 @@ lemma open_var_injective {t u : trm} {x : String} :
   rewrite [close_open_var hxt, close_open_var hxu] at hclose
   exact hclose
 
+def subst (t : trm) (x : String) (s : trm) : trm :=
+  match t with
+  | bvar i    => bvar i
+  | fvar y    => if x = y then s else fvar y
+  | app t₁ t₂ => app (subst t₁ x s) (subst t₂ x s)
+  | abs t     => abs (subst t x s)
+
+notation t "[" x " := " s "]" => subst t x s
+
+lemma subst_open_rec_var {t : trm} {k : ℕ} {x y z : String} :
+    z ≠ x →
+    ({k ~> z} t)[x := fvar y] = {k ~> z} (t[x := fvar y]) := by
+  intro hzx
+  induction t generalizing k <;> grind [subst, open_rec]
+
+lemma lc_subst_var {t : trm} {x y : String} :
+    lc t → lc (t[x := fvar y]) := by
+  intro ht
+  induction ht
+  case lc_var z =>
+    rewrite [subst]
+    split
+    · exact lc.lc_var y
+    · exact lc.lc_var z
+  case lc_app t₁ t₂ ht₁ ht₂ ih₁ ih₂ =>
+    exact lc.lc_app ih₁ ih₂
+  case lc_abs L t hbody ih =>
+    apply lc.lc_abs (L ∪ {x})
+    intro z hz
+    have hf : z ≠ x ∧ z ∉ L := by grind
+    have hsubst := ih z hf.2
+    grind [open_var, subst_open_rec_var hf.1]
+
+lemma open_close_rec_subst {t : trm} {k : ℕ} {x y : String} :
+    ({k ~> y} ({k <~ x} t)) = ({k ~> y} t)[x := fvar y] := by
+  induction t generalizing k <;> grind [open_rec, close_var_rec, subst]
+
+lemma open_close_subst {t : trm} {x y : String} :
+    lc t → (t ^\ x) ^ y = t[x := fvar y] := by
+  intro ht
+  change ({0 ~> y} ({0 <~ x} t)) = t[x := fvar y]
+  rw [open_close_rec_subst, open_rec_lc ht]
+
 end trm

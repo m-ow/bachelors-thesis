@@ -326,3 +326,78 @@ lemma open_var_injective {t u : trm} {x : String} :
     t ^ x = u ^ x →
     t = u 
 ```
+
+## 2.4. Sustitución
+
+La sustitución $t[x:=s]$ reemplaza las apariciones libres
+del nombre $x$ en $t$ por el término $s$.
+En una aplicación, se realiza en ambos componentes,
+y en una abstracción, en su cuerpo.
+Las variables libres cuyo nombre es distinto de $x$
+permanecen sin cambios.
+
+La operación se define recursivamente por
+
+$$
+\begin{array}{l c l}
+(\mathsf{bvar}\,i)[x:=s]
+  & \equiv & \mathsf{bvar}\,i \\
+(\mathsf{fvar}\,y)[x:=s]
+  & \equiv &
+  \text{si } (x=y) \text{ entonces } s
+  \text{ si no } (\mathsf{fvar}\,y) \\
+(\mathsf{app}\,t_1\,t_2)[x:=s]
+  & \equiv &
+  \mathsf{app}\,(t_1[x:=s])\,(t_2[x:=s]) \\
+(\mathsf{abs}\,t)[x:=s]
+  & \equiv &
+  \mathsf{abs}\,(t[x:=s])
+\end{array}
+$$
+
+En Lean:
+
+```lean
+def subst (t : trm) (x : String) (s : trm) : trm :=
+  match t with
+  | bvar i    => bvar i
+  | fvar y    => if x = y then s else fvar y
+  | app t₁ t₂ => app (subst t₁ x s) (subst t₂ x s)
+  | abs t     => abs (subst t x s)
+
+notation t "[" x " := " s "]" => subst t x s
+```
+
+Nos interesa el caso en que sustituimos 
+una variable libre por otra, 
+es decir, cuando $s=\mathsf{fvar}\,y$.
+Esta sustitución conserva la clausura local:
+si $t$ es localmente cerrado, también lo es
+$t[x:=\mathsf{fvar}\,y]$.
+En efecto, no introduce nuevos índices,
+y los que ya aparecen en $t$ siguen ligados
+por las mismas abstracciones.
+
+\textbf{Lema 2.4.1.}
+Sea $t$ un término localmente cerrado.
+Cerrar $t$ con $x$ y abrir el resultado con $y$
+equivale a sustituir las apariciones libres de $x$
+por $\mathsf{fvar}\,y$:
+$$
+(t^{\backslash x})^y=t[x:=\mathsf{fvar}\,y].
+$$
+
+El cierre reemplaza las apariciones de $\mathsf{fvar}\,x$
+por índices, que la apertura con $y$ reemplaza después
+por $\mathsf{fvar}\,y$.
+Como $t$ es localmente cerrado, los índices que ya contenía
+hacen referencia a abstracciones de su interior
+y permanecen sin cambios.
+Así, el resultado es $t[x:=\mathsf{fvar}\,y]$.
+
+Su enunciado en Lean es:
+
+```lean
+lemma open_close_subst {t : trm} {x y : String} :
+    lc t → (t ^\ x) ^ y = t[x := fvar y]
+```
