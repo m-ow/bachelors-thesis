@@ -84,9 +84,9 @@ lemma eta_fv_eq {r s : trm} :
       rw [hfv]
     grind [open_var, mem_fv_open_rec hxy]
 
-lemma eta_subst_var {t u : trm} {x y : String} :
-    eta t u →
-    eta (t[x := fvar y]) (u[x := fvar y]) := by
+lemma eta_subst_var {r s : trm} {x y : String} :
+    eta r s →
+    eta (r[x := fvar y]) (s[x := fvar y]) := by
   intro h
   induction h
   case eta_red t ht =>
@@ -104,11 +104,11 @@ lemma eta_subst_var {t u : trm} {x y : String} :
     have hsubst := ih z hf.2
     grind [open_var, subst_open_rec_var hf.1]
 
-lemma abs_close {t u : trm} {x : String} :
-    eta t u →
-    eta (abs (t ^\ x)) (abs (u ^\ x)) := by
+lemma abs_close {t t' : trm} {x : String} :
+    eta t t' →
+    eta (abs (t ^\ x)) (abs (t' ^\ x)) := by
   intro h
-  apply eta.eta_abs ∅ (t ^\ x) (u ^\ x)
+  apply eta.eta_abs ∅ (t ^\ x) (t' ^\ x)
   intro y hy
   rewrite [open_close_subst (eta_regular h).1]
   rewrite [open_close_subst (eta_regular h).2]
@@ -138,15 +138,15 @@ lemma refl_app2 {t₁ t₂ t₂' : trm} :
     apply clos_refl.step (app t₁ t₂) (app t₁ t₂')
     exact eta.eta_app2 t₁ t₂ t₂' ht₁ hstep
 
-lemma refl_abs_close {t u : trm} {x : String} :
-    clos_refl eta t u →
-    clos_refl eta (abs (t ^\ x)) (abs (u ^\ x)) := by
+lemma refl_abs_close {t t' : trm} {x : String} :
+    clos_refl eta t t' →
+    clos_refl eta (abs (t ^\ x)) (abs (t' ^\ x)) := by
   intro h
   cases h
   case refl =>
     exact clos_refl.refl (abs (t ^\ x))
   case step hstep =>
-    apply clos_refl.step (abs (t ^\ x)) (abs (u ^\ x))
+    apply clos_refl.step (abs (t ^\ x)) (abs (t' ^\ x))
     exact abs_close hstep
 
 lemma eta_app_fvar_inv {t u : trm} {x : String} :
