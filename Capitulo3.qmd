@@ -207,6 +207,43 @@ lemma eta_fv_eq {r s : trm} :
     eta r s → fv r = fv s
 ```
 
+\textbf{Lema 3.1.3.}
+La sustitución de una variable libre por otra conserva
+la reducción $\eta$, es decir, si $t\longrightarrow u$, entonces
+$$
+t[x:=\mathsf{fvar}\,y]
+\longrightarrow
+u[x:=\mathsf{fvar}\,y].
+$$
+
+Para entender esta propiedad, consideremos primero
+la regla \textsc{eta-red}, que requiere un término
+de la forma
+$\mathsf{abs}\,(\mathsf{app}\,t\,0)$,
+con $t$ localmente cerrado.
+La sustitución de una variable libre por otra conserva
+ambas condiciones: mantiene la forma del redex
+y la clausura local de $t$.
+Por ello, la misma regla permite obtener
+$$
+\mathsf{abs}\,
+(\mathsf{app}\,(t[x:=\mathsf{fvar}\,y])\,0)
+\longrightarrow
+t[x:=\mathsf{fvar}\,y].
+$$
+
+El mismo razonamiento se aplica cuando el redex
+se encuentra dentro de una aplicación o una abstracción,
+mediante las reglas de congruencia.
+
+Su enunciado en Lean es:
+
+```lean
+lemma eta_subst_var {t u : trm} {x y : String} :
+    eta t u →
+    eta (t[x := fvar y]) (u[x := fvar y])
+```
+
 ## 3.1. Reglas de congruencia para la clausura reflexiva
 
 Las reglas de congruencia de la reducción $\eta$ se extienden a su clausura reflexiva.
