@@ -138,7 +138,7 @@ lemma refl_app2 {t₁ t₂ t₂' : trm} :
     apply clos_refl.step (app t₁ t₂) (app t₁ t₂')
     exact eta.eta_app2 t₁ t₂ t₂' ht₁ hstep
 
-lemma refl_abs_close {t t' : trm} {x : String} :
+lemma refl_abs {t t' : trm} {x : String} :
     clos_refl eta t t' →
     clos_refl eta (abs (t ^\ x)) (abs (t' ^\ x)) := by
   intro h
