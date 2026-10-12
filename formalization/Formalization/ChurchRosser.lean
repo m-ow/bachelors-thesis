@@ -62,7 +62,7 @@ theorem eta_diamond : ∀ m m₁ m₂,
       constructor
       · exact clos_refl.step t t' r_t_t'
       · apply clos_refl.step
-        exact eta.eta_red (eta_regular r_t_t').2
+        exact eta.eta_red t' (eta_regular r_t_t').2
   -- Caso 4
   case eta_abs L t t₁ hbody ih =>
     cases h₂
@@ -73,7 +73,7 @@ theorem eta_diamond : ∀ m m₁ m₂,
       use t'
       constructor
       · apply clos_refl.step
-        exact eta.eta_red (eta_regular r_m₂_t').2
+        exact eta.eta_red t' (eta_regular r_m₂_t').2
       · exact clos_refl.step m₂ t' r_m₂_t'
     -- Caso 4.2
     case eta_abs => sorry

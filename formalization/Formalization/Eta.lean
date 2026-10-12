@@ -5,18 +5,18 @@ set_option linter.style.header false
 namespace trm
 
 inductive eta : relation trm
-  | eta_red {t : trm} :
+  | eta_red : ∀ t : trm,
       lc t →
       eta (abs (app t (bvar 0))) t
-  | eta_app1 {t₁ t₁' t₂ : trm} :
+  | eta_app1 : ∀ t₁ t₁' t₂ : trm,
       lc t₂ →
       eta t₁ t₁' →
       eta (app t₁ t₂) (app t₁' t₂)
-  | eta_app2 {t₁ t₂ t₂' : trm} :
+  | eta_app2 : ∀ t₁ t₂ t₂' : trm,
       lc t₁ →
       eta t₂ t₂' →
       eta (app t₁ t₂) (app t₁ t₂')
-  | eta_abs (L : Finset String) {t t' : trm} :
+  | eta_abs : ∀ (L : Finset String) (t t' : trm),
       (∀ x ∉ L, eta (t ^ x) (t' ^ x)) →
       eta (abs t) (abs t')
 
@@ -82,7 +82,37 @@ lemma eta_fv_eq {r s : trm} :
     have hfv := ih y hL
     have hmem : x ∈ fv (t ^ y) ↔ x ∈ fv (u ^ y) := by
       rw [hfv]
-    simpa only [open_var, mem_fv_open_rec hxy] using hmem
+    grind [open_var, mem_fv_open_rec hxy]
+
+lemma eta_subst_var {t u : trm} {x y : String} :
+    eta t u →
+    eta (t[x := fvar y]) (u[x := fvar y]) := by
+  intro h
+  induction h
+  case eta_red t ht =>
+    exact eta.eta_red (t[x := fvar y]) (lc_subst_var ht)
+  case eta_app1 t₁ t₁' t₂ ht₂ hstep ih =>
+    exact eta.eta_app1 (t₁[x := fvar y]) (t₁'[x := fvar y])
+      (t₂[x := fvar y]) (lc_subst_var ht₂) ih
+  case eta_app2 t₁ t₂ t₂' ht₁ hstep ih =>
+    exact eta.eta_app2 (t₁[x := fvar y]) (t₂[x := fvar y])
+      (t₂'[x := fvar y]) (lc_subst_var ht₁) ih
+  case eta_abs L t u hbody ih =>
+    apply eta.eta_abs (L ∪ {x}) (t[x := fvar y]) (u[x := fvar y])
+    intro z hz
+    have hf : z ≠ x ∧ z ∉ L := by grind
+    have hsubst := ih z hf.2
+    grind [open_var, subst_open_rec_var hf.1]
+
+lemma abs_close {t u : trm} {x : String} :
+    eta t u →
+    eta (abs (t ^\ x)) (abs (u ^\ x)) := by
+  intro h
+  apply eta.eta_abs ∅ (t ^\ x) (u ^\ x)
+  intro y hy
+  rewrite [open_close_subst (eta_regular h).1]
+  rewrite [open_close_subst (eta_regular h).2]
+  exact eta_subst_var h
 
 lemma refl_app1 {t₁ t₁' t₂ : trm} :
     lc t₂ →
@@ -94,7 +124,7 @@ lemma refl_app1 {t₁ t₁' t₂ : trm} :
     exact clos_refl.refl (app t₁ t₂)
   case step hstep =>
     apply clos_refl.step (app t₁ t₂) (app t₁' t₂)
-    exact eta.eta_app1 ht₂ hstep
+    exact eta.eta_app1 t₁ t₁' t₂ ht₂ hstep
 
 lemma refl_app2 {t₁ t₂ t₂' : trm} :
     lc t₁ →
@@ -106,7 +136,18 @@ lemma refl_app2 {t₁ t₂ t₂' : trm} :
     exact clos_refl.refl (app t₁ t₂)
   case step hstep =>
     apply clos_refl.step (app t₁ t₂) (app t₁ t₂')
-    exact eta.eta_app2 ht₁ hstep
+    exact eta.eta_app2 t₁ t₂ t₂' ht₁ hstep
+
+lemma refl_abs_close {t u : trm} {x : String} :
+    clos_refl eta t u →
+    clos_refl eta (abs (t ^\ x)) (abs (u ^\ x)) := by
+  intro h
+  cases h
+  case refl =>
+    exact clos_refl.refl (abs (t ^\ x))
+  case step hstep =>
+    apply clos_refl.step (abs (t ^\ x)) (abs (u ^\ x))
+    exact abs_close hstep
 
 lemma eta_app_fvar_inv {t u : trm} {x : String} :
     eta (app t (fvar x)) u →
