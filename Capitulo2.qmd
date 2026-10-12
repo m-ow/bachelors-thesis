@@ -349,11 +349,9 @@ lemma open_var_injective {t u : trm} {x : String} :
 
 La sustitución $t[x:=s]$ reemplaza las apariciones libres
 del nombre $x$ en $t$ por el término $s$.
-En una aplicación, se realiza en ambos componentes,
-y en una abstracción, en su cuerpo.
-Las variables libres cuyo nombre es distinto de $x$
-permanecen sin cambios.
-
+En esta representación, sustituir dentro de una abstracción
+solo requiere aplicar la sustitución a su cuerpo,
+sin elegir ni cambiar nombres ligados.
 La operación se define recursivamente por
 
 $$
