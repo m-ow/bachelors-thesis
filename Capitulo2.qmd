@@ -1,24 +1,41 @@
 # Cálculo $\lambda$
 
-Para representar términos del cálculo $\lambda$ utilizaremos la representación
-*locally nameless*. En ella, las variables ligadas se representan mediante
-índices de de Bruijn, mientras que las variables libres conservan un nombre.
-De esta manera, la sintaxis de los términos está dada por
-
+Recordemos la sintaxis habitual de los términos del cálculo $\lambda$:
 $$
-t ::= 
-\mathsf{bvar} \, i  \mid 
-\mathsf{fvar} \, x  \mid 
-\mathsf{abs}  \, t  \mid 
-\mathsf{app}  \, t \, t  
+M ::= x \mid M\,M \mid \lambda x.\,M.
 $$
+Esta forma de escribir los términos se conoce como *representación con nombres*.
 
-donde $i \in \mathbb{N}$ es un índice de de Bruijn y 
-$x$ es el nombre de una variable libre. En Lean tomamos 
-los nombres como cadenas de caracteres:
+El uso de nombres requiere cuidado al reemplazar variables libres por términos. 
+Por ejemplo, para reemplazar la variable libre $y$ por $x$ en $\lambda x.\,y$, 
+debemos evitar que la variable introducida quede ligada. 
+Por eso, primero podemos escribir el mismo término como $\lambda z.\,y$ y 
+reemplazar entonces $y$ por $x$ para obtener $\lambda z.\,x$.
 
+En papel podemos identificar mentalmente $\lambda x.\,y$ con $\lambda z.\,y$ y continuar el argumento.
+En Lean, debemos justificar también ese cambio y comprobar que la variable introducida permanece libre.
 
-```lean 
+Una forma de abordar esta dificultad es la representación *locally nameless*, 
+que utilizaremos en este trabajo. En ella, las variables libres conservan un nombre, 
+mientras que las ligadas se representan mediante números naturales que indican a qué abstracción hacen referencia. 
+El número $0$ corresponde a la abstracción más cercana que contiene la aparición, el $1$ a la siguiente hacia afuera, 
+y así sucesivamente. Estos números se denominan *índices de de Bruijn*. 
+
+Conservar nombres para las variables libres permite seguir utilizándolos en los enunciados y las demostraciones, 
+como hacemos habitualmente en papel. Elegimos esta representación para facilitar que, en la prueba transicional, 
+el lector pueda relacionar los pasos del argumento matemático con los de su formalización en Lean.
+
+La sintaxis de los términos en la representación *locally nameless* está dada por
+$$
+t ::=
+\mathsf{bvar}\,i \mid
+\mathsf{fvar}\,x \mid
+\mathsf{abs}\,t \mid
+\mathsf{app}\,t\,t,
+$$
+donde $i\in\mathbb{N}$ es un índice de de Bruijn y $x$ es el nombre de una variable libre. En Lean tomamos los nombres como cadenas de caracteres:
+
+```lean
 inductive trm : Type
   | bvar : ℕ → trm
   | fvar : String → trm
@@ -199,7 +216,8 @@ es localmente cerrada cuando lo son sus dos componentes.
 Por último, `lc_abs` emplea *cuantificación cofinita*: exige elegir 
 un conjunto finito `L` y demostrar que `t ^ x` es localmente 
 cerrado para todo nombre `x` que no pertenezca a `L`.
-La definición no incluye un constructor para términos de la forma `bvar i`, pues un índice aislado no está ligado por ninguna abstracción y, por tanto, no es localmente cerrado.
+La definición no incluye un constructor para términos de la forma `bvar i`, 
+pues un índice aislado no está ligado por ninguna abstracción y, por tanto, no es localmente cerrado.
 
 \textbf{Lema 2.2.1.} La apertura no modifica los términos
 localmente cerrados. Es decir, si $t$ es localmente cerrado, entonces $\{k\rightsquigarrow x\}\,t=t$ para todo índice $k$ y todo nombre $x$.
