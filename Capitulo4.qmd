@@ -233,7 +233,7 @@ aplicar la regla \textsc{eta-red} y obtener este paso.
       constructor
       · exact clos_refl.step t t' r_t_t'
       · apply clos_refl.step
-        exact eta.eta_red (eta_regular r_t_t').2
+        exact eta.eta_red t' (eta_regular r_t_t').2
 ```
 
 \textbf{Caso 4.} La reducción $m\longrightarrow m_1$ tiene
@@ -296,7 +296,7 @@ Para la segunda, aplicamos directamente la regla
       use t'
       constructor
       · apply clos_refl.step
-        exact eta.eta_red (eta_regular r_m₂_t').2
+        exact eta.eta_red t' (eta_regular r_m₂_t').2
       · exact clos_refl.step m₂ t' r_m₂_t'
 ```
 

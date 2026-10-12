@@ -111,18 +111,18 @@ En Lean, esta relación se define inductivamente de la siguiente manera:
 
 ```lean 
 inductive eta : relation trm
-  | eta_red {t : trm} :
+  | eta_red : ∀ t : trm,
       lc t →
       eta (abs (app t (bvar 0))) t
-  | eta_app1 {t₁ t₁' t₂ : trm} :
+  | eta_app1 : ∀ t₁ t₁' t₂ : trm,
       lc t₂ →
       eta t₁ t₁' →
       eta (app t₁ t₂) (app t₁' t₂)
-  | eta_app2 {t₁ t₂ t₂' : trm} :
+  | eta_app2 : ∀ t₁ t₂ t₂' : trm,
       lc t₁ →
       eta t₂ t₂' →
       eta (app t₁ t₂) (app t₁ t₂')
-  | eta_abs (L : Finset String) {t t' : trm} :
+  | eta_abs : ∀ (L : Finset String) (t t' : trm),
       (∀ x ∉ L, eta (t ^ x) (t' ^ x)) →
       eta (abs t) (abs t')
 ```
