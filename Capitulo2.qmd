@@ -13,13 +13,13 @@ Por eso, primero podemos escribir el mismo término como $\lambda z.\,y$ y
 reemplazar entonces $y$ por $x$ para obtener $\lambda z.\,x$.
 
 En papel podemos identificar mentalmente $\lambda x.\,y$ con $\lambda z.\,y$ y continuar el argumento.
-En Lean, debemos justificar también ese cambio y comprobar que la variable introducida permanece libre.
+En Lean, debemos justificar ese cambio y comprobar que la variable introducida permanece libre.
 
 Una forma de abordar esta dificultad es la representación *locally nameless*, 
 que utilizaremos en este trabajo. En ella, las variables libres conservan un nombre, 
 mientras que las ligadas se representan mediante números naturales que indican a qué abstracción hacen referencia. 
-El número $0$ corresponde a la abstracción más cercana que contiene la aparición, el $1$ a la siguiente hacia afuera, 
-y así sucesivamente. Estos números se denominan *índices de de Bruijn*. 
+El número $0$ corresponde a la abstracción más cercana que contiene la variable ligada, 
+el $1$ a la siguiente hacia afuera, y así sucesivamente. Estos números se denominan *índices de de Bruijn*.
 
 Conservar nombres para las variables libres permite seguir utilizándolos en los enunciados y las demostraciones, 
 como hacemos habitualmente en papel. Elegimos esta representación para facilitar que, en la prueba transicional, 
