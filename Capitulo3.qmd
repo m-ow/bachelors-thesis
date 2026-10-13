@@ -267,7 +267,7 @@ informal con su formalización en Lean:
 a partir de $t\longrightarrow t'$, obtenemos una reducción
 entre las abstracciones construidas de esta manera.
 
-\textbf{Lema 3.0.4.}
+\textbf{Lema 3.0.4.} Para todo nombre $x$, se cumple:
 $$
 \inferrule*[right=\textsc{abs-close}]
   {t \longrightarrow t'}
@@ -316,8 +316,8 @@ $\mathsf{abs}\,(t^{\backslash x})
 Su enunciado en Lean es:
 
 ```lean
-lemma abs_close {t t' : trm} {x : String} :
-    eta t t' →
+lemma abs_close {t t' : trm} :
+    ∀ x, eta t t' →
     eta (abs (t ^\ x)) (abs (t' ^\ x))
 ```
 
@@ -384,7 +384,7 @@ lemma refl_app2 {t₁ t₂ t₂' : trm} :
     clos_refl eta (app t₁ t₂) (app t₁ t₂') 
 ```
 
-\textbf{Lema 3.1.3.}
+\textbf{Lema 3.1.3.} Para todo nombre $x$, se cumple:
 $$
 \inferrule*[right=\textsc{refl-abs}]
   {t \longrightarrow^{=} t'}
@@ -394,20 +394,22 @@ $$
 $$
 
 ::: {.proof}
+Supongamos que
+$t\longrightarrow^{=}t'$.
 Si $t=t'$, las abstracciones
 $\mathsf{abs} \, (t^{\backslash x})$ y
 $\mathsf{abs} \, (t'^{\backslash x})$
 son iguales y aplicamos \textsc{refl}.
-Si $t\longrightarrow t'$, el Lema 3.0.4 proporciona
-una reducción entre estas abstracciones.
+Si $t\longrightarrow t'$, el Lema 3.0.4 
+proporciona una reducción entre estas abstracciones.
 Aplicando \textsc{step}, obtenemos la conclusión.
 :::
 
 Su enunciado en Lean es:
 
 ```lean
-lemma refl_abs {t t' : trm} {x : String} :
-    clos_refl eta t t' →
+lemma refl_abs {t t' : trm} :
+    ∀ x, clos_refl eta t t' →
     clos_refl eta (abs (t ^\ x)) (abs (t' ^\ x))
 ```
 
