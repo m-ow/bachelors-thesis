@@ -70,34 +70,40 @@ $m_2\longrightarrow^{=}m_3$.
       use app t₃ z
 ```
 
-\textbf{Caso 1.2.} Tenemos $m_2=\mathsf{app}\,t\,z_1$,
+\textbf{Caso 1.2.} Tenemos $m_2=\mathsf{app} \, t \, z_1$,
 con $z\longrightarrow z_1$ y $t$ localmente cerrado.
-
-Tomamos $m_3=\mathsf{app}\,t_1\,z_1$.
-Como $t\longrightarrow t_1$, el Lema 3.0.1 garantiza
-que $t_1$ es localmente cerrado.
-Por el Lema 3.1.2, para obtener
-$m_1\longrightarrow^{=}m_3$ basta demostrar
-$z\longrightarrow^{=}z_1$.
-Esta relación se obtiene aplicando la regla \textsc{step}
-a $z\longrightarrow z_1$.
-
-Análogamente, el Lema 3.0.1 aplicado a
-$z\longrightarrow z_1$ garantiza que $z_1$ es localmente
-cerrado.
-Por el Lema 3.1.1, para obtener
-$m_2\longrightarrow^{=}m_3$ basta demostrar
-$t\longrightarrow^{=}t_1$.
-Esta relación se obtiene aplicando la regla \textsc{step}
-a $t\longrightarrow t_1$.
+Tomamos $m_3=\mathsf{app} \, t_1 \, z_1$ y demostramos
+las dos relaciones requeridas.
 
 ```lean 
     -- Caso 1.2
     case eta_app2 z₁ lc_t r_z_z₁ =>
       use app t₁ z₁
       constructor
+```
+
+Como $t\longrightarrow t_1$, el Lema 3.0.1 garantiza
+que $t_1$ es localmente cerrado.
+Por el Lema 3.1.2, para obtener
+$\mathsf{app} \, t_1 \, z\longrightarrow^{=} \mathsf{app} \, t_1 \, z_1$,
+basta demostrar $z\longrightarrow^{=}z_1$.
+La regla \textsc{step}, aplicada a $z\longrightarrow z_1$,
+proporciona esta relación.
+
+```lean 
       · apply refl_app2 (eta_regular r_t_t₁).2
         exact clos_refl.step z z₁ r_z_z₁
+```
+
+Como $z\longrightarrow z_1$, el Lema 3.0.1 garantiza
+que $z_1$ es localmente cerrado.
+Por el Lema 3.1.1, para obtener
+$\mathsf{app} \, t \, z_1\longrightarrow^{=} \mathsf{app} \, t_1 \, z_1$,
+basta demostrar $t\longrightarrow^{=}t_1$.
+La regla \textsc{step}, aplicada a $t\longrightarrow t_1$,
+proporciona esta relación.
+
+```lean 
       · apply refl_app1 (eta_regular r_z_z₁).2
         exact clos_refl.step t t₁ r_t_t₁
 ```
@@ -116,23 +122,24 @@ $t_1\longrightarrow^{=}q$ y $v\longrightarrow^{=}q$.
 Distinguimos dos subcasos según la regla utilizada para obtener
 $\mathsf{app}\,z\,t\longrightarrow m_2$.
 
-\textbf{Caso 2.1.} Tenemos $m_2=\mathsf{app}\,z_1\,t$,
+\textbf{Caso 2.1.} Tenemos $m_2=\mathsf{app} \, z_1 \, t$,
 con $z\longrightarrow z_1$ y $t$ localmente cerrado.
+Tomamos $m_3=\mathsf{app} \, z_1 \, t_1$ y demostramos
+las dos relaciones requeridas.
 
-Tomamos $m_3=\mathsf{app}\,z_1\,t_1$.
-Por el Lema 3.0.1 aplicado a $t\longrightarrow t_1$,
-el término $t_1$ es localmente cerrado.
-El Lema 3.1.1 permite reducir la demostración de
-$m_1\longrightarrow^{=}m_3$ a la de
-$z\longrightarrow^{=}z_1$.
-Esta última se obtiene mediante la regla \textsc{step},
-aplicada a $z\longrightarrow z_1$.
+Como $t\longrightarrow t_1$, el Lema 3.0.1 garantiza
+que $t_1$ es localmente cerrado.
+Por el Lema 3.1.1, para obtener
+$\mathsf{app} \, z \, t_1\longrightarrow^{=} \mathsf{app} \, z_1 \, t_1$,
+basta demostrar $z\longrightarrow^{=}z_1$.
+La regla \textsc{step}, aplicada a $z\longrightarrow z_1$,
+proporciona esta relación.
 
-Por otra parte, $z_1$ es localmente cerrado por el
-Lema 3.0.1 aplicado a $z\longrightarrow z_1$.
+Como $z\longrightarrow z_1$, el Lema 3.0.1 garantiza
+que $z_1$ es localmente cerrado.
 Por el Lema 3.1.2, para obtener
-$m_2\longrightarrow^{=}m_3$ basta demostrar
-$t\longrightarrow^{=}t_1$.
+$\mathsf{app} \, z_1 \, t\longrightarrow^{=} \mathsf{app} \, z_1 \, t_1$,
+basta demostrar $t\longrightarrow^{=}t_1$.
 La regla \textsc{step}, aplicada a $t\longrightarrow t_1$,
 proporciona esta relación.
 
