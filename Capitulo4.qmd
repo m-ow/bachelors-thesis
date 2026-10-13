@@ -217,39 +217,43 @@ $m_2\longrightarrow^{=}m_3$.
 
 \textbf{Caso 3.2.} La reducción se obtiene mediante
 la regla \textsc{eta-abs}.
-Tenemos $m_2=\mathsf{abs}\,u$ y un conjunto finito
+Tenemos $m_2=\mathsf{abs} \, u$ y un conjunto finito
 de nombres $L$ tal que
-$(\mathsf{app}\,t\,0)^x\longrightarrow u^x$
+$(\mathsf{app} \, t \, 0)^x\longrightarrow u^x$
 para todo $x\notin L$.
-
-Aplicando el Lema 3.2.1 a esta condición y a la clausura
-local de $t$, obtenemos un término $t'$ tal que
-$t\longrightarrow t'$ y $u=\mathsf{app}\,t'\,0$.
-En la relación $\mathsf{abs}\,u\longrightarrow^{=}m_3$
-que debemos demostrar, sustituimos $u$ por
-$\mathsf{app}\,t'\,0$.
-Tomamos $m_3=t'$.
-Las dos relaciones requeridas son entonces
-$t\longrightarrow^{=}t'$ y
-$\mathsf{abs}\,(\mathsf{app}\,t'\,0)\longrightarrow^{=}t'$.
-
-La primera relación se obtiene aplicando la regla
-\textsc{step} a $t\longrightarrow t'$.
-
-Para la segunda relación, aplicamos la regla \textsc{step}.
-Basta demostrar
-$\mathsf{abs}\,(\mathsf{app}\,t'\,0)\longrightarrow t'$.
-Como $t\longrightarrow t'$, el Lema 3.0.1 garantiza
-que $t'$ es localmente cerrado. Podemos, por tanto,
-aplicar la regla \textsc{eta-red} y obtener este paso.
+Como $t$ es localmente cerrado, el Lema 3.2.1
+proporciona un término $t'$ tal que
+$t\longrightarrow t'$ y $u=\mathsf{app} \, t' \,0$.
 
 ```lean
     -- Caso 3.2
     case eta_abs L u hbody =>
       rcases eta_redex_body lc_t hbody with ⟨t', r_t_t', hu⟩
+``` 
+
+Usando esta igualdad
+escribimos $m_2=\mathsf{abs} \, (\mathsf{app} \, t' \,0)$.
+Tomamos $m_3=t'$.
+Debemos demostrar
+$t\longrightarrow^{=}t'$ y
+$\mathsf{abs} \, (\mathsf{app} \, t' \, 0) \longrightarrow^{=}t'$.
+
+```lean 
       rewrite [hu]
       use t'
       constructor
+```
+La primera relación se obtiene aplicando
+la regla \textsc{step} a $t\longrightarrow t'$.
+
+Para la segunda, como $t\longrightarrow t'$,
+el Lema 3.0.1 garantiza que $t'$ es localmente cerrado.
+La regla \textsc{eta-red} proporciona entonces
+$\mathsf{abs} \, (\mathsf{app} \, t' \,0)\longrightarrow t'$.
+Aplicando \textsc{step}, obtenemos
+$\mathsf{abs} \,(\mathsf{app} \, t' \,0) \longrightarrow^{=}t'$.
+
+```lean 
       · exact clos_refl.step t t' r_t_t'
       · apply clos_refl.step
         exact eta.eta_red t' (eta_regular r_t_t').2
