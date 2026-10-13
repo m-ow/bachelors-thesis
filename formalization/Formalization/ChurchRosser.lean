@@ -15,10 +15,9 @@ theorem eta_diamond : ∀ m m₁ m₂,
     -- Caso 1.1
     case eta_app1 t₂ r_t_t₂ lc_z =>
       rcases ih t₂ r_t_t₂ with ⟨t₃, rl_t₁_t₃, rl_t₂_t₃⟩
+      have rl_app₁ := refl_app1 lc_z rl_t₁_t₃
+      have rl_app₂ := refl_app1 lc_z rl_t₂_t₃
       use app t₃ z
-      constructor
-      · exact refl_app1 lc_z rl_t₁_t₃
-      · exact refl_app1 lc_z rl_t₂_t₃
     -- Caso 1.2
     case eta_app2 z₁ lc_t r_z_z₁ =>
       use app t₁ z₁
@@ -41,10 +40,9 @@ theorem eta_diamond : ∀ m m₁ m₂,
     -- Caso 2.2
     case eta_app2 t₂ lc_z r_t_t₂ =>
       rcases ih t₂ r_t_t₂ with ⟨t₃, rl_t₁_t₃, rl_t₂_t₃⟩
+      have rl_app₁ := refl_app2 lc_z rl_t₁_t₃
+      have rl_app₂ := refl_app2 lc_z rl_t₂_t₃
       use app z t₃
-      constructor
-      · exact refl_app2 lc_z rl_t₁_t₃
-      · exact refl_app2 lc_z rl_t₂_t₃
   -- Caso 3
   case eta_red t lc_t =>
     cases h₂
@@ -76,7 +74,17 @@ theorem eta_diamond : ∀ m m₁ m₂,
         exact eta.eta_red t' (eta_regular r_m₂_t').2
       · exact clos_refl.step m₂ t' r_m₂_t'
     -- Caso 4.2
-    case eta_abs => sorry
+    case eta_abs K t₂ hbody₂ =>
+      rcases exists_fresh (K ∪ L ∪ fv t₁ ∪ fv t₂) with ⟨x, hx⟩
+      have hf : x ∉ K ∧ x ∉ L ∧ x ∉ fv t₁ ∧ x ∉ fv t₂ := by
+        aesop
+      have r_t_t₂ := hbody₂ x hf.1
+      rcases ih x hf.2.1 (t₂ ^ x) r_t_t₂ with ⟨t₃, rl_t₁_t₃, rl_t₂_t₃⟩
+      have rl_abs₁ := refl_abs x rl_t₁_t₃
+      have rl_abs₂ := refl_abs x rl_t₂_t₃
+      rewrite [close_open_var hf.2.2.1] at rl_abs₁
+      rewrite [close_open_var hf.2.2.2] at rl_abs₂
+      use abs (t₃ ^\ x)
 
 theorem church_rosser : confluent eta := by
   unfold confluent
