@@ -1,4 +1,4 @@
-# Conclusión
+# Conclusión {.unnumbered}
 
 En este trabajo desarrollamos una prueba transicional de la confluencia de la reducción $\eta$ en el cálculo $\lambda$, 
 utilizando Lean para su componente formal. Tomamos como referencia la demostración presentada por Barendregt [@barendregt1984] 

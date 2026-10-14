@@ -1,4 +1,4 @@
-# Introducción
+# Introducción {.unnumbered}
 \pagenumbering{arabic}
 
 Un asistente de pruebas es un programa que permite expresar definiciones y enunciados matemáticos en un lenguaje formal, 
