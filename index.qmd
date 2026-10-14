@@ -1,4 +1,11 @@
-# Introducción {.unnumbered}
+# Introducción
 \pagenumbering{arabic}
 
-TODO
+## Organización del trabajo 
+
+El capítulo 1 presenta las clausuras de relaciones, la propiedad del diamante y la confluencia. 
+El capítulo 2 introduce los términos en la representación *locally nameless*, sus operaciones y la clausura local. 
+El capítulo 3 desarrolla las propiedades de la reducción $\eta$ necesarias para la demostración. 
+El capítulo 4 presenta la prueba transicional de la confluencia de esta reducción. 
+Finalmente, en la conclusión se explica la aportación del trabajo y se propone como continuación 
+elaborar pruebas transicionales de la confluencia de las reducciones $\beta$ y $\beta\eta$.
