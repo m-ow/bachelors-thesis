@@ -19,6 +19,40 @@ Para construir esta correspondencia, trabajamos con el texto y el código.
 Al formalizar, podemos necesitar precisar algún paso del argumento escrito. 
 La redacción también puede ayudarnos a organizar el código para que sea más fácil seguir ese argumento.
 
+En este trabajo presentamos una prueba transicional de la confluencia de la reducción $\eta$ en el cálculo $\lambda$,
+utilizando Lean 4 para su componente formal.
+
+La reducción $\eta$ permite simplificar una expresión que describe una función. Por ejemplo, $\lambda x. f \, x$ 
+recibe un argumento y se limita a aplicar $f$ a ese argumento, por lo que podemos escribir simplemente $f$.
+En general, la reducción tiene la forma
+$$
+\lambda x. M \, x\longrightarrow_\eta M, \quad x\notin\operatorname{fv}(M).
+$$
+Este reemplazo también puede realizarse dentro de aplicaciones y abstracciones. Cuando hay varias partes que podemos reducir, 
+surge la pregunta de si el orden elegido afecta al resultado. Una situación familiar aparece al calcular $(2+3)\cdot(4+1)$: 
+podemos comenzar por cualquiera de las dos sumas y  obtener expresiones intermedias distintas, pero en ambos casos llegamos a $25$. 
+En el cálculo $\lambda$, la confluencia garantiza que, si dos sucesiones de reducciones parten del mismo término, 
+podemos continuar desde los términos obtenidos hasta alcanzar uno común. 
+
+La confluencia de $\eta$ es un resultado conocido. Tomamos como referencia la demostración presentada por Barendregt [@barendregt1984]. 
+Entre sus antecedentes formales se encuentran los desarrollos de Nipkow en Isabelle [@nipkow2001] y de Momigliano y Sassella en Beluga [@momigliano2024]. 
+Estos trabajos estudian también las reducciones $\beta$ y $\beta\eta$; aquí nos concentramos en $\eta$. 
+Nuestro propósito es desarrollar una exposición en la que podamos seguir el argumento matemático y reconocer cómo se expresa cada paso en Lean.
+
+Para representar los términos utilizamos la representación locally nameless, siguiendo el trabajo de Charguéraud [@chargueraud2012]. 
+En ella, las variables libres conservan sus nombres y las ligadas se representan mediante números que indican a qué abstracción hacen referencia. 
+Esta elección permite seguir utilizando nombres en los enunciados y las demostraciones. A lo largo del trabajo explicamos las operaciones 
+y los lemas que necesitamos para razonar con esta representación.
+
+La presentación transicional se concentra en la demostración de la confluencia. Para los resultados auxiliares 
+presentamos las demostraciones o explicaciones matemáticas y sus enunciados en Lean. 
+Sus demostraciones formales se encuentran en el repositorio que acompaña al trabajo.^[Disponible en <https://github.com/m-ow/bachelors-thesis>.]
+
+A lo largo del trabajo utilizamos nociones básicas de relaciones y lógica, así como demostraciones por inducción. 
+Partimos también de cierta familiaridad con la notación habitual del cálculo $\lambda$. 
+En cuanto a Lean, no suponemos experiencia previa: explicamos cómo leer los enunciados y 
+las demostraciones escritos en el asistente, para que el lector pueda seguir el código junto con el argumento matemático.
+
 ## Organización del trabajo 
 
 El capítulo 1 presenta las clausuras de relaciones, la propiedad del diamante y la confluencia. 
