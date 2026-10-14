@@ -82,19 +82,30 @@ def fv (t : trm) : Finset String :=
 \textbf{Lema 2.0.1.} Para todo conjunto finito de nombres $L$,
 existe $x\notin L$.
 
+::: {.proof}
+Hay infinitas cadenas de caracteres y, por tanto, infinitos nombres.
+Como $L$ es finito, no puede contenerlos todos.
+Por ello, existe $x\notin L$.^[Lean permite trabajar con o sin el axioma de elección.
+Mathlib lo utiliza habitualmente, como ocurre en muchas
+demostraciones de la matemática clásica, y la demostración formal
+que empleamos para este lema depende de él.]
+:::
+
+Su enunciado en Lean es:
+
 ```lean 
 lemma exists_fresh : ∀ L : Finset String,
     ∃ x, x ∉ L
 ```
 
-En las demostraciones necesitaremos elegir nombres que
-no aparezcan libres en ciertos términos ni pertenezcan
-a determinados conjuntos finitos.
-Como todos esos nombres forman un conjunto finito,
+En las demostraciones de los lemas y del teorema de confluencia
+necesitaremos elegir nombres que no aparezcan libres en ciertos
+términos ni pertenezcan a determinados conjuntos finitos.
+Como los nombres que debemos evitar forman un conjunto finito,
 el lema anterior garantiza que podemos elegir uno
 distinto de ellos.
 Nos referiremos a esta elección diciendo que tomamos
-un nombre nuevo.
+*un nombre nuevo*.
 
 ## 2.1. Apertura 
 
