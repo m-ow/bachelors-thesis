@@ -11,9 +11,17 @@ book:
     - Capitulo2.qmd
     - Capitulo3.qmd
     - Capitulo4.qmd
+    - Conclusion.qmd
+    - references.qmd
+
+bibliography: references.bib
 lang: es
 format:
   pdf:
+    cite-method: biblatex
+    biblio-style: alphabetic
+    biblatexoptions:
+      - giveninits=true
     pdf-engine: xelatex
     documentclass: scrreprt
     toc-depth: 2
