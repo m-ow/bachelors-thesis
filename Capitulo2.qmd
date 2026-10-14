@@ -58,8 +58,12 @@ Por ejemplo, el término $\lambda x. \, x \, y$ puede escribirse en Lean como
 
 ### Variables libres
 
-El conjunto de variables libres de un término $t$, denotado por
-$\operatorname{fv} (t)$, se define recursivamente mediante
+En Lean usamos `Finset String` para representar conjuntos finitos de
+nombres, pues los nombres se escriben como cadenas de caracteres.
+Las expresiones `∅`, `{x}`, `∪` y `∈` denotan, respectivamente, el
+conjunto vacío, un conjunto de un solo elemento, la unión y la
+pertenencia. Así, `fv t` es el conjunto finito de nombres que aparecen
+libres en `t`. Su implementación es:
 $$
 \begin{array}{l c l}
 \operatorname{fv}(\mathsf{bvar}\, i) & \equiv & \emptyset \\ 
