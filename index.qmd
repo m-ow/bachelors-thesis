@@ -1,6 +1,24 @@
 # Introducción
 \pagenumbering{arabic}
 
+Un asistente de pruebas es un programa que permite expresar definiciones y enunciados matemáticos en un lenguaje formal, 
+y construir demostraciones que el sistema comprueba según sus reglas lógicas.
+
+Miranda-Perea y González Huesca proponen las *pruebas transicionales* para conciliar 
+las demostraciones habituales en papel con las realizadas en un asistente de pruebas. 
+Una prueba transicional consta de una demostración matemática escrita y una secuencia 
+de instrucciones que demuestra el mismo enunciado en el asistente. 
+Cada paso del argumento escrito debe corresponder a una secuencia de instrucciones 
+que exprese el mismo razonamiento y mantenga el orden de los pasos.
+
+La definición requiere también un uso equilibrado de las herramientas del asistente. 
+Solo las tareas operativas más elementales pueden aparecer en la formalización 
+sin un paso correspondiente en el texto [@miranda2022].
+
+Para construir esta correspondencia, trabajamos con el texto y el código. 
+Al formalizar, podemos necesitar precisar algún paso del argumento escrito. 
+La redacción también puede ayudarnos a organizar el código para que sea más fácil seguir ese argumento.
+
 ## Organización del trabajo 
 
 El capítulo 1 presenta las clausuras de relaciones, la propiedad del diamante y la confluencia. 

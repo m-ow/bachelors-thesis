@@ -1,8 +1,16 @@
 # Conclusión
 
-En este trabajo desarrollamos una prueba transicional de la confluencia de la reducción $\eta$ en el cálculo $\lambda$, utilizando Lean para su componente formal. Partimos de un resultado conocido y presentamos los preliminares necesarios para seguir su demostración. La aportación del trabajo consiste en explicar el argumento matemático y hacer explícita su correspondencia con una demostración comprobada por el asistente, incluyendo las condiciones y los resultados auxiliares que intervienen en ella.
+En este trabajo desarrollamos una prueba transicional de la confluencia de la reducción $\eta$ en el cálculo $\lambda$, 
+utilizando Lean para su componente formal. Partimos de un resultado conocido y presentamos los preliminares necesarios 
+para seguir su demostración. La aportación del trabajo consiste en explicar el argumento matemático y hacer explícita 
+su correspondencia con una demostración comprobada por el asistente, incluyendo las condiciones y los resultados auxiliares que intervienen en ella.
 
-La representación *locally nameless* permitió mantener nombres para las variables libres y utilizar índices para las ligadas. Esta elección exigió desarrollar las operaciones de apertura, cierre y sustitución, junto con sus propiedades. Los lemas sobre estas operaciones permiten conciliar la formalización con la forma de razonar en la representación con nombres. Por ejemplo, si un término se reduce a otro, podemos añadir a ambos una abstracción con el mismo nombre y obtener una reducción entre ellas. En nuestra formalización, cerramos primero los términos con ese nombre y después añadimos las abstracciones. El Lema 3.0.4 permite hacerlo:
+La representación *locally nameless* permitió mantener nombres para las variables libres y utilizar índices para las ligadas. 
+Esta elección exigió desarrollar las operaciones de apertura, cierre y sustitución, junto con sus propiedades. 
+Los lemas sobre estas operaciones permiten conciliar la formalización con la forma de razonar en la representación con nombres. 
+Por ejemplo, si un término se reduce a otro, podemos añadir a ambos una abstracción con el mismo nombre y obtener una reducción entre ellas. 
+En nuestra formalización, cerramos primero los términos con ese nombre y después añadimos las abstracciones. 
+El Lema 3.0.4 permite hacerlo:
 $$
 \inferrule*[right=\textsc{abs-close}]
   {t \longrightarrow t'}
@@ -12,7 +20,9 @@ $$
 $$
 Así, podemos obtener la reducción entre ambas abstracciones a partir de una sola reducción, como en la representación con nombres.
 
-Una continuación sería elaborar una prueba transicional de la confluencia de la reducción $\beta$. Para ello, podríamos seguir el método de reducción paralela de Tait y Martin-Löf [@barendregt1984] y tomar como referencia formalizaciones existentes, como la de Nipkow [@nipkow2001].
+Una continuación sería elaborar una prueba transicional de la confluencia de la reducción $\beta$. 
+Para ello, podríamos seguir el método de reducción paralela de Tait y Martin-Löf [@barendregt1984] y 
+tomar como referencia formalizaciones existentes, como la de Nipkow [@nipkow2001].
 
 También podría desarrollarse una prueba transicional de la conmutación de $\beta$ y $\eta$, en el sentido de que: 
 $$
@@ -25,4 +35,5 @@ N_2\longrightarrow_\beta Q.
 $$
 Esta propiedad, junto con la confluencia de ambas reducciones, permite concluir la confluencia de $\beta\eta$.
 
-En ambos casos, el objetivo sería conciliar los argumentos matemáticos con sus formalizaciones mediante pruebas transicionales que hagan explícita la correspondencia entre sus pasos.
+En ambos casos, el objetivo sería conciliar los argumentos matemáticos con sus formalizaciones mediante 
+pruebas transicionales que hagan explícita la correspondencia entre sus pasos.
