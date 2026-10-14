@@ -1,16 +1,15 @@
 # Conclusión
 
 En este trabajo desarrollamos una prueba transicional de la confluencia de la reducción $\eta$ en el cálculo $\lambda$, 
-utilizando Lean para su componente formal. Partimos de un resultado conocido y presentamos los preliminares necesarios 
-para seguir su demostración. La aportación del trabajo consiste en explicar el argumento matemático y hacer explícita 
-su correspondencia con una demostración comprobada por el asistente, incluyendo las condiciones y los resultados auxiliares que intervienen en ella.
+utilizando Lean para su componente formal. Tomamos como referencia la demostración presentada por Barendregt [@barendregt1984] 
+y seguimos la propuesta de pruebas transicionales de Miranda-Perea y González Huesca [@miranda2022]. 
+El trabajo consiste en conciliar este argumento matemático con su formalización, explicando la correspondencia entre sus pasos, 
+incluyendo las condiciones y los resultados auxiliares necesarios.
 
-La representación *locally nameless* permitió mantener nombres para las variables libres y utilizar índices para las ligadas. 
-Esta elección exigió desarrollar las operaciones de apertura, cierre y sustitución, junto con sus propiedades. 
-Los lemas sobre estas operaciones permiten conciliar la formalización con la forma de razonar en la representación con nombres. 
-Por ejemplo, si un término se reduce a otro, podemos añadir a ambos una abstracción con el mismo nombre y obtener una reducción entre ellas. 
-En nuestra formalización, cerramos primero los términos con ese nombre y después añadimos las abstracciones. 
-El Lema 3.0.4 permite hacerlo:
+Para la formalización utilizamos la representación *locally nameless*, siguiendo el trabajo de Charguéraud [@chargueraud2012]. 
+Definimos en Lean las operaciones de apertura, cierre y sustitución y demostramos las propiedades que utilizamos. 
+Entre las construcciones que retomamos de la literatura se encuentra la de cerrar un término con un nombre y después añadir una abstracción. 
+En nuestro desarrollo, el Lema 3.0.4 permite obtener de esta manera una reducción entre abstracciones:
 $$
 \inferrule*[right=\textsc{abs-close}]
   {t \longrightarrow t'}
@@ -18,7 +17,10 @@ $$
     \longrightarrow
     \mathsf{abs}\,(t'^{\backslash x})}
 $$
-Así, podemos obtener la reducción entre ambas abstracciones a partir de una sola reducción, como en la representación con nombres.
+
+Retomamos esta construcción porque permite razonar sobre las abstracciones de una manera cercana a la representación con nombres. 
+El lema justifica ese paso en nuestra formalización y reúne los detalles necesarios para utilizarlo. 
+Así, al aplicarlo en la prueba transicional, podemos seguir el argumento matemático y reconocer cómo se expresa en Lean.
 
 Una continuación sería elaborar una prueba transicional de la confluencia de la reducción $\beta$. 
 Para ello, podríamos seguir el método de reducción paralela de Tait y Martin-Löf [@barendregt1984] y 
