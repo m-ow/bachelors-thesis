@@ -1,8 +1,13 @@
 # Introducción {.unnumbered}
 \pagenumbering{arabic}
 
-Un asistente de pruebas es un programa que permite expresar definiciones y enunciados matemáticos en un lenguaje formal, 
-y construir demostraciones que el sistema comprueba según sus reglas lógicas.
+Un asistente de pruebas es un programa que permite expresar definiciones
+y enunciados matemáticos en un lenguaje formal, y construir demostraciones
+que el sistema comprueba según sus reglas lógicas.
+
+En este trabajo utilizamos Lean 4, un asistente de pruebas y lenguaje de programación [@demoura2021].
+Su fundamento es una versión del cálculo de construcciones con tipos inductivos [@tpil4].
+En él escribimos las definiciones y las demostraciones que acompañan al texto.
 
 Miranda-Perea y González Huesca proponen las *pruebas transicionales* para conciliar 
 las demostraciones habituales en papel con las realizadas en un asistente de pruebas. 
