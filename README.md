@@ -2,9 +2,13 @@
 
 Tesis de licenciatura de Maximiliano Onofre Martínez.
 
+Los archivos `.qmd` contienen el manuscrito. La carpeta `formalization/`
+contiene las definiciones y las demostraciones en Lean, junto sus instrucciones
+de compilación. 
+
 ### Generar el PDF
 
-Se requieren Quarto, una distribución de LaTeX y la fuente JuliaMono.
+Se requieren [Quarto](https://quarto.org/), una distribución de LaTeX y la fuente JuliaMono.
 
 Para instalar TinyTeX desde Quarto:
 
@@ -23,3 +27,5 @@ Para abrir una vista previa durante la edición:
 ```sh
 quarto preview
 ```
+
+El PDF generado se guarda en `_book/`. 
