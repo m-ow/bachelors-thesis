@@ -26,7 +26,11 @@ format:
     documentclass: scrreprt
     toc-depth: 2
     number-depth: 0
-    syntax-definitions: [lean.xml]
+    syntax-definitions: [lean.xml, state.xml]
     include-in-header: inpreamble.tex
     monofont: JuliaMono
     keep-tex: false
+
+filters:
+  - latex-environment
+environments: [inpt, outpt]
