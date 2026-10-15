@@ -3,7 +3,7 @@
 En este trabajo los términos del cálculo $\lambda$ se escriben mediante la representación *locally nameless*: 
 las variables libres conservan sus nombres y las ligadas se expresan mediante índices de de Bruijn.
 
-El resultado final es el Teorema de Church Rosser para la reducción $\eta$, el cual expresa 
+El resultado final es el teorema de Church-Rosser para la reducción $\eta$, el cual expresa
 que dos sucesiones finitas de reducciones $\eta$ con el mismo origen pueden extenderse hasta alcanzar un término en común.
 
 ## Organización
@@ -31,5 +31,3 @@ cd formalization
 lake exe cache get
 lake build
 ```
-
-
