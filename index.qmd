@@ -33,20 +33,30 @@ En general, la reducción tiene la forma
 $$
 \lambda x. M \, x\longrightarrow_\eta M, \quad x\notin\operatorname{fv}(M).
 $$
-Este reemplazo también puede realizarse dentro de aplicaciones y abstracciones. Cuando hay varias partes que podemos reducir, 
-surge la pregunta de si el orden elegido afecta al resultado. Una situación familiar aparece al calcular $(2+3)\cdot(4+1)$: 
-podemos comenzar por cualquiera de las dos sumas y  obtener expresiones intermedias distintas, pero en ambos casos llegamos a $25$. 
-En el cálculo $\lambda$, la confluencia garantiza que, si dos sucesiones de reducciones parten del mismo término, 
+Este reemplazo también puede realizarse dentro de aplicaciones y abstracciones.
+Cuando hay varias partes que podemos reducir, 
+surge la pregunta de si el orden elegido afecta al resultado. 
+Una situación familiar aparece al calcular $(2+3)\cdot(4+1)$: 
+podemos comenzar por cualquiera de las dos sumas y  obtener expresiones 
+intermedias distintas, pero en ambos casos llegamos a $25$. 
+En el cálculo $\lambda$, la confluencia garantiza que, si dos sucesiones 
+de reducciones parten del mismo término, 
 podemos continuar desde los términos obtenidos hasta alcanzar uno común. 
 
-La confluencia de $\eta$ es un resultado conocido. Tomamos como referencia la demostración presentada por Barendregt [@barendregt1984]. 
-Entre sus antecedentes formales se encuentran los desarrollos de Nipkow en Isabelle [@nipkow2001] y de Momigliano y Sassella en Beluga [@momigliano2024]. 
+La confluencia de $\eta$ es un resultado conocido. Tomamos como referencia la demostración 
+presentada por Barendregt [@barendregt1984]. 
+Entre sus antecedentes formales se encuentran los desarrollos de Nipkow en Isabelle [@nipkow2001] y 
+de Momigliano y Sassella en Beluga [@momigliano2024]. 
 Estos trabajos estudian también las reducciones $\beta$ y $\beta\eta$; aquí nos concentramos en $\eta$. 
-Nuestro propósito es desarrollar una exposición en la que podamos seguir el argumento matemático y reconocer cómo se expresa cada paso en Lean.
+Nuestro propósito es desarrollar una exposición en la que podamos seguir el argumento matemático 
+y reconocer cómo se expresa cada paso en Lean.
 
-Para representar los términos utilizamos la representación locally nameless, siguiendo el trabajo de Charguéraud [@chargueraud2012]. 
-En ella, las variables libres conservan sus nombres y las ligadas se representan mediante números que indican a qué abstracción hacen referencia. 
-Esta elección permite seguir utilizando nombres en los enunciados y las demostraciones. A lo largo del trabajo explicamos las operaciones 
+Para representar los términos utilizamos la representación locally nameless, siguiendo el trabajo 
+de Charguéraud [@chargueraud2012]. 
+En ella, las variables libres conservan sus nombres y las ligadas se representan mediante 
+números que indican a qué abstracción hacen referencia. 
+Esta elección permite seguir utilizando nombres en los enunciados y las demostraciones. 
+A lo largo del trabajo explicamos las operaciones 
 y los lemas que necesitamos para razonar con esta representación.
 
 La presentación transicional se concentra en la demostración de la confluencia. Para los resultados auxiliares 
@@ -57,6 +67,240 @@ A lo largo del trabajo utilizamos nociones básicas de relaciones y lógica, as�
 Partimos también de cierta familiaridad con la notación habitual del cálculo $\lambda$. 
 En cuanto a Lean, no suponemos experiencia previa: explicamos cómo leer los enunciados y 
 las demostraciones escritos en el asistente, para que el lector pueda seguir el código junto con el argumento matemático.
+
+## Cómo leer las demostraciones en Lean 
+
+En Lean 4 escribimos demostraciones mediante instrucciones que el
+asistente interpreta. Para leerlas, comenzaremos por la notación
+de los enunciados y las hipótesis.
+
+En Lean, cada expresión tiene un tipo. Por ejemplo, `n : ℕ`
+indica que `n` es un número natural, mientras que `P : Prop`
+indica que `P` es una proposición. Las proposiciones también
+se utilizan como tipos: una expresión `h : P` representa
+una demostración de `P`.
+
+Utilizamos también Mathlib, una biblioteca de matemáticas
+formalizadas de la que tomamos, entre otros recursos,
+los conjuntos finitos [@mathlib2020]. En el código que acompaña
+al trabajo definimos las clausuras de relaciones, los términos
+del cálculo $\lambda$ y la reducción $\eta$.
+
+Veamos cómo se expresa en Lean una demostración que utiliza
+dos implicaciones. Supongamos que $P\to Q$ y $Q\to R$.
+Para demostrar $P\to R$, suponemos $P$, obtenemos $Q$
+mediante la primera hipótesis y después $R$ mediante la segunda.
+
+Las instrucciones que utilizamos después de `by` se llaman
+*tácticas*. Para seguir sus efectos, Lean muestra las hipótesis
+disponibles y lo que falta demostrar, llamado *objetivo*.
+Esta información constituye el *estado de la prueba*.
+En los ejemplos, acompañamos las instrucciones con el estado
+que muestra Lean después de ejecutarlas.
+
+Comenzamos introduciendo la hipótesis $P$:
+
+::: {.inout}
+::: {.inpt}
+```lean
+lemma encadenar
+    (P Q R : Prop)
+    (h₁ : P → Q) (h₂ : Q → R) :
+    P → R := by
+  intro hP
+```
+:::
+::: {.outpt}
+```state
+P Q R : Prop
+h₁ : P → Q
+h₂ : Q → R
+hP : P
+⊢ R
+```
+:::
+:::
+
+La declaración comienza con `lemma` y el nombre `encadenar`.
+Después aparecen las proposiciones `P`, `Q` y `R`,
+las hipótesis `h₁` y `h₂`, y la conclusión `P → R`.
+
+Con `intro hP` suponemos `P` y le damos el nombre `hP`
+a esta hipótesis. En el estado de la prueba, las hipótesis
+aparecen antes de `⊢` y el objetivo después:
+ahora debemos demostrar `R`.
+
+Aplicamos `h₁ : P → Q` a `hP : P` mediante la expresión
+`h₁ hP`. Con `have` damos el nombre `hQ` a la demostración
+de `Q` que obtenemos:
+
+::: {.inout}
+::: {.inpt}
+```lean
+  have hQ : Q := h₁ hP
+```
+:::
+::: {.outpt}
+```state
+P Q R : Prop
+h₁ : P → Q
+h₂ : Q → R
+hP : P
+hQ : Q
+⊢ R
+```
+:::
+:::
+
+Finalmente, `h₂ hQ` proporciona una demostración de `R`.
+La táctica `exact` la utiliza para resolver el objetivo:
+
+::: {.inout}
+::: {.inpt}
+```lean
+  exact h₂ hQ
+```
+:::
+::: {.outpt}
+```state
+No goals
+```
+:::
+:::
+
+El mensaje `No goals` indica que no quedan objetivos pendientes.
+Los tres bloques de código se leen consecutivamente y forman
+una sola demostración.
+
+También podemos escribir `have hQ := h₁ hP`,
+pues Lean puede determinar que el resultado demuestra `Q`.
+
+La táctica `apply` permite razonar desde lo que queremos demostrar.
+Por ejemplo, si el objetivo es `R`, con `apply h₂`
+indicamos que basta demostrar `Q`, porque tenemos `h₂ : Q → R`.
+
+Para utilizar una hipótesis que afirma una existencia,
+empleamos `rcases`. Supongamos, por ejemplo, que existe
+un número natural mayor que $2$ y menor que $5$.
+Queremos concluir que existe un número natural mayor que $2$.
+
+La palabra `example` permite presentar una demostración
+sin darle un nombre:
+
+::: {.inout}
+::: {.inpt}
+```lean
+example
+    (h : ∃ n : ℕ, 2 < n ∧ n < 5) :
+    ∃ n : ℕ, 2 < n := by
+  rcases h with ⟨n, hmayor, hmenor⟩
+```
+:::
+::: {.outpt}
+```state
+n : ℕ
+hmayor : 2 < n
+hmenor : n < 5
+⊢ ∃ n, 2 < n
+```
+:::
+:::
+
+La instrucción `rcases` nos permite trabajar con un número
+`n` que satisface las condiciones de `h`.
+Las hipótesis `hmayor` y `hmenor` expresan esas condiciones.
+Esta táctica también permite separar una conjunción
+o distinguir los casos de una disyunción.
+
+Para demostrar la existencia que buscamos, elegimos
+el mismo número mediante `use n`.
+Como ya tenemos `hmayor : 2 < n`, Lean completa la demostración:
+
+::: {.inout}
+::: {.inpt}
+```lean
+  use n
+```
+:::
+::: {.outpt}
+```state
+No goals
+```
+:::
+:::
+
+Cuando queremos demostrar por separado las dos proposiciones
+de una conjunción, utilizamos `constructor`.
+Por ejemplo, si tenemos `hP : P` y `hQ : Q`,
+podemos demostrar `Q ∧ P` mediante:
+
+```lean
+  constructor
+  · exact hQ
+  · exact hP
+```
+
+Cada bloque iniciado por `·` demuestra uno de los objetivos:
+el primero demuestra `Q` y el segundo, `P`.
+
+Si tenemos `h : P ∧ Q`, podemos utilizar `h.1` para demostrar
+`P` y `h.2` para demostrar `Q`.
+Esta notación también permite acceder a conjunciones anidadas:
+si `h : P ∧ (Q ∧ R)`, entonces `h.2` demuestra `Q ∧ R`
+y `h.2.1` demuestra `Q`.
+
+Podemos utilizar `inductive` para definir un tipo enumerando
+sus elementos. Por ejemplo, representamos los días de la semana
+mediante:
+
+```lean
+inductive Dia : Type
+  | lunes : Dia
+  | martes : Dia
+  | miercoles : Dia
+  | jueves : Dia
+  | viernes : Dia
+  | sabado : Dia
+  | domingo : Dia
+```
+
+Esta declaración introduce el tipo `Dia` con siete elementos
+distintos, llamados *constructores*.
+
+Si queremos demostrar una propiedad de un día `d : Dia`,
+podemos considerar cada una de las siete posibilidades.
+La instrucción `cases d` separa la demostración en esos casos.
+Cada uno se desarrolla en un bloque identificado por
+el nombre del constructor: `case lunes =>`,
+`case martes =>`, y así sucesivamente.
+
+Para las demostraciones por inducción utilizamos la táctica
+`induction`. Supongamos que queremos demostrar que una propiedad
+$P$ se cumple para todos los números naturales.
+En Lean, este objetivo se escribe `∀ n : ℕ, P n`.
+
+Con `intro n` introducimos un número natural arbitrario
+y el objetivo pasa a ser `P n`. Después, la instrucción
+`induction n` indica que procederemos por inducción:
+
+```lean
+  intro n
+  induction n
+```
+
+Lean separa entonces la demostración en dos casos.
+En el caso base debemos demostrar `P 0`.
+En el paso inductivo debemos demostrar `P (k + 1)`,
+suponiendo `P k`.
+
+El caso base se desarrolla en el bloque `case zero =>`.
+Para el paso inductivo escribimos `case succ k ih =>`,
+donde `k` es el número natural e `ih` es el nombre que damos
+a la hipótesis de inducción `P k`.
+
+Para una presentación más amplia de Lean pueden consultarse
+*Theorem Proving in Lean 4* [@tpil4] y
+*Mathematics in Lean* [@mil].
 
 ## Organización del trabajo 
 
