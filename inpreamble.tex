@@ -1,11 +1,15 @@
 \usepackage{amsthm}
+\usepackage{csquotes}
+\usepackage{needspace}
 \usepackage{mathpartir}
 \usepackage{tikz}
 \usepackage[normalem]{ulem}
-\usepackage{scrlayer-scrpage}
+\usepackage[autooneside=false]{scrlayer-scrpage}
 \usepackage[most]{tcolorbox}
 
-\automark{section}
+\automark[section]{chapter}
+\fvset{samepage=true}
+\AtBeginBibliography{\small}
 \setkomafont{pagefoot}{\upshape}
 \cfoot*{}
 \ofoot*{\pagemark}
@@ -37,15 +41,12 @@
   \renewcommand{\textgreater}{\null\oldgreater}%
 }
 
-% From Daniel J. Velleman, HTPIwL (CC BY-SA 4.0); labels translated.
-% See THIRD_PARTY.md for the source revision and license.
-%redefines Shaded so it can't break
+
 \newcommand{\nobreakShaded}{\renewenvironment{Shaded}
 	{\begin{tcolorbox}[frame hidden, boxrule=0pt, colback=shadecolor,
 		sharp corners, left=0pt, right=0pt, top=0pt, bottom=0pt]}
 	{\end{tcolorbox}}}
 
-%Make end of environment ignore pars that come after it
 \def\useignorespacesandallpars#1\ignorespaces\fi{%
 #1\fi\ignorespacesandallpars}
 

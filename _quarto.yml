@@ -26,6 +26,8 @@ format:
     documentclass: scrreprt
     toc-depth: 2
     number-depth: 0
+    linkcolor: black
+    toccolor: blue
     syntax-definitions: [lean.xml, state.xml]
     include-in-header: inpreamble.tex
     monofont: JuliaMono

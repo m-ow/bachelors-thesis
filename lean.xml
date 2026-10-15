@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE language SYSTEM "language.dtd">
-<language name="lean" version="1.0" section="Sources" extensions="*.lean">
+<language name="lean" version="1.1" section="Sources" extensions="*.lean">
 <highlighting>
 <list name="keywords">
 <item>theorem</item>
 <item>example</item>
 <item>lemma</item>
 <item>def</item>
+<item>inductive</item>
+<item>instance</item>
+<item>variable</item>
+<item>namespace</item>
+<item>import</item>
+<item>infixl</item>
+<item>infixr</item>
 <item>notation</item>
 <item>let</item>
 <item>set</item>
@@ -30,6 +37,19 @@
 <item>Sum</item>
 <item>Prod</item>
 <item>exact</item>
+<item>intro</item>
+<item>intros</item>
+<item>cases</item>
+<item>case</item>
+<item>induction</item>
+<item>generalizing</item>
+<item>rcases</item>
+<item>constructor</item>
+<item>use</item>
+<item>aesop</item>
+<item>grind</item>
+<item>unfold</item>
+<item>only</item>
 <item>apply</item>
 <item>apply?</item>
 <item>contrapos</item>
