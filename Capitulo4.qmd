@@ -13,8 +13,10 @@ bloques, estos forman una única secuencia de instrucciones
 y se leen en el orden en que aparecen.
 Cada bloque continúa la prueba desde el punto
 en que terminó el anterior, con los términos y las hipótesis
-disponibles en ese momento. El texto y el código presentan
-los mismos pasos del argumento.
+disponibles en ese momento.
+Esta presentación permite seguir la correspondencia entre
+los pasos del argumento escrito y las instrucciones de Lean
+que los desarrollan.
 
 ## 4.1. Reducciones con un mismo origen.
 
