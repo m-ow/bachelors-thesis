@@ -18,7 +18,7 @@ Esta presentación permite seguir la correspondencia entre
 los pasos del argumento escrito y las instrucciones de Lean
 que los desarrollan.
 
-## 4.1. Reducciones con un mismo origen.
+## 4.1. Reducciones con un mismo origen
 
 \textbf{Teorema 4.1.1.} 
 Si un término $m$ se reduce en un paso a $m_1$ y a $m_2$, entonces existe un término $m_3$ tal que
