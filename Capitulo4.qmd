@@ -427,7 +427,7 @@ $m_1\longrightarrow^{=}m_3$ y $m_2\longrightarrow^{=}m_3$,
 como queríamos demostrar.
 :::
 
-## 4.2. Confluencia de la reducción $\eta$. 
+## 4.2. Confluencia de la reducción $\eta$
 
 \textbf{Teorema 4.2.1 (Teorema de Church-Rosser).} La reducción $\eta$ es confluente.
 
