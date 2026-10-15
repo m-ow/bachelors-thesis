@@ -1,6 +1,24 @@
 # Una prueba transicional
 
-\textbf{Teorema 4.0.1.} 
+Presentamos la prueba transicional de la confluencia de $\eta$,
+tomando como referencia la demostración de @barendregt1984
+y utilizando los resultados de los capítulos anteriores.
+Primero demostraremos que, si un término se reduce en un paso
+a otros dos, ambos pueden alcanzar un término común mediante
+cero o un paso. Después utilizaremos este resultado para
+demostrar la confluencia.
+
+Cuando el código de una demostración aparece dividido en varios
+bloques, estos forman una única secuencia de instrucciones
+y se leen en el orden en que aparecen.
+Cada bloque continúa la prueba desde el punto
+en que terminó el anterior, con los términos y las hipótesis
+disponibles en ese momento. El texto y el código presentan
+los mismos pasos del argumento.
+
+## 4.1. Reducciones con un mismo origen.
+
+\textbf{Teorema 4.1.1.} 
 Si un término $m$ se reduce en un paso a $m_1$ y a $m_2$, entonces existe un término $m_3$ tal que
 $m_1\longrightarrow^{=}m_3$ y $m_2\longrightarrow^{=}m_3$.
 
@@ -33,7 +51,8 @@ tal que $t\longrightarrow v$, existe un término $q$ tal que
 $t_1\longrightarrow^{=} q$ y $v\longrightarrow^{=} q$.
 
 Distinguimos dos subcasos según la regla utilizada para obtener
-$\mathsf{app}\,t\,z\longrightarrow m_2$.
+$\mathsf{app}\,t\,z\longrightarrow m_2$.^[En los nombres de las hipótesis, 
+el prefijo `r_` indica un paso de reducción y `rl_`, cero o un paso.]
 
 ```lean 
   -- Caso 1
@@ -330,7 +349,16 @@ Tenemos $m_2=\mathsf{abs} \, t_2$ y un conjunto finito
 de nombres $K$ tal que
 $t^y\longrightarrow t_2^y$ para todo $y\notin K$.
 
-Elegimos un nombre nuevo $x$.
+Elegimos un nombre nuevo $x$.^[Utilizamos la convención establecida
+en el capítulo 2. En el código, `exists_fresh` proporciona un nombre
+fuera de la unión de los conjuntos que debemos evitar.
+La táctica `aesop` deduce entonces que ese nombre no pertenece
+a ninguno de ellos. Su nombre corresponde a
+*Automated Extensible Search for Obvious Proofs*.
+Fue desarrollada para reducir el trabajo de demostrar hechos
+que resultan inmediatos en el razonamiento matemático, mediante
+la aplicación automática de reglas y simplificaciones
+[@limperg2023aesop].]
 
 ```lean
     -- Caso 4.2
@@ -397,8 +425,9 @@ $m_1\longrightarrow^{=}m_3$ y $m_2\longrightarrow^{=}m_3$,
 como queríamos demostrar.
 :::
 
+## 4.2. Confluencia de la reducción $\eta$. 
 
-\textbf{Teorema 4.0.2 (Teorema de Church-Rosser).} La reducción $\eta$ es confluente.
+\textbf{Teorema 4.2.1 (Teorema de Church-Rosser).} La reducción $\eta$ es confluente.
 
 ::: {.proof}
 Debemos demostrar que
@@ -454,7 +483,7 @@ a $m\longrightarrow m_1$.
 
 \textbf{Caso 2.2.} El término $m$ se reduce también
 a $m_2$ en un paso.
-Aplicando el Teorema 4.0.1 a
+Aplicando el Teorema 4.1.1 a
 $m\longrightarrow m_1$ y $m\longrightarrow m_2$,
 obtenemos un término $m_3$ tal que
 $m_1\longrightarrow^{=}m_3$ y
