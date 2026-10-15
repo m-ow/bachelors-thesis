@@ -18,7 +18,7 @@ que exprese el mismo razonamiento y mantenga el orden de los pasos.
 
 La definición requiere también un uso equilibrado de las herramientas del asistente. 
 Solo las tareas operativas más elementales pueden aparecer en la formalización 
-sin un paso correspondiente en el texto [@miranda2022].
+sin un paso correspondiente en el texto [@miranda2022, p. 86].
 
 Para construir esta correspondencia, trabajamos con el texto y el código. 
 Al formalizar, podemos necesitar precisar algún paso del argumento escrito. 
@@ -45,13 +45,13 @@ podemos continuar desde los términos obtenidos hasta alcanzar uno común.
 
 La confluencia de $\eta$ es un resultado conocido. Tomamos como referencia la demostración 
 presentada por Barendregt [@barendregt1984]. 
-Entre sus antecedentes formales se encuentran los desarrollos de Nipkow en Isabelle [@nipkow2001] y 
+Entre sus antecedentes formales se encuentran los desarrollos de Nipkow en Isabelle/HOL [@nipkow2001] y
 de Momigliano y Sassella en Beluga [@momigliano2024]. 
 Estos trabajos estudian también las reducciones $\beta$ y $\beta\eta$; aquí nos concentramos en $\eta$. 
 Nuestro propósito es desarrollar una exposición en la que podamos seguir el argumento matemático 
 y reconocer cómo se expresa cada paso en Lean.
 
-Para representar los términos utilizamos la representación locally nameless, siguiendo el trabajo 
+Para representar los términos utilizamos la representación *locally nameless*, siguiendo el trabajo
 de Charguéraud [@chargueraud2012]. 
 En ella, las variables libres conservan sus nombres y las ligadas se representan mediante 
 números que indican a qué abstracción hacen referencia. 
@@ -61,7 +61,7 @@ y los lemas que necesitamos para razonar con esta representación.
 
 La presentación transicional se concentra en la demostración de la confluencia. Para los resultados auxiliares 
 presentamos las demostraciones o explicaciones matemáticas y sus enunciados en Lean. 
-Sus demostraciones formales se encuentran en el repositorio que acompaña al trabajo.^[Disponible en <https://github.com/m-ow/bachelors-thesis>.]
+Sus demostraciones formales se encuentran en el repositorio que acompaña al trabajo.^[Disponible en <https://github.com/m-ow/tesis-lic>.]
 
 A lo largo del trabajo utilizamos nociones básicas de relaciones y lógica, así como demostraciones por inducción. 
 Partimos también de cierta familiaridad con la notación habitual del cálculo $\lambda$. 
@@ -96,7 +96,9 @@ Las instrucciones que utilizamos después de `by` se llaman
 disponibles y lo que falta demostrar, llamado *objetivo*.
 Esta información constituye el *estado de la prueba*.
 En los ejemplos, acompañamos las instrucciones con el estado
-que muestra Lean después de ejecutarlas.
+que muestra Lean después de ejecutarlas.^[Para presentar el código
+junto al estado de la prueba, seguimos el formato utilizado por
+Velleman en *How To Prove It with Lean* [@vellemanLean].]
 
 Comenzamos introduciendo la hipótesis $P$:
 
@@ -249,9 +251,11 @@ Esta notación también permite acceder a conjunciones anidadas:
 si `h : P ∧ (Q ∧ R)`, entonces `h.2` demuestra `Q ∧ R`
 y `h.2.1` demuestra `Q`.
 
+\Needspace{14\baselineskip}
+
 Podemos utilizar `inductive` para definir un tipo enumerando
-sus elementos. Por ejemplo, representamos los días de la semana
-mediante:
+sus elementos, llamados *constructores*. Por ejemplo,
+representamos los siete días de la semana mediante:
 
 ```lean
 inductive Dia : Type
@@ -263,9 +267,6 @@ inductive Dia : Type
   | sabado : Dia
   | domingo : Dia
 ```
-
-Esta declaración introduce el tipo `Dia` con siete elementos
-distintos, llamados *constructores*.
 
 Si queremos demostrar una propiedad de un día `d : Dia`,
 podemos considerar cada una de las siete posibilidades.
@@ -289,14 +290,9 @@ y el objetivo pasa a ser `P n`. Después, la instrucción
 ```
 
 Lean separa entonces la demostración en dos casos.
-En el caso base debemos demostrar `P 0`.
-En el paso inductivo debemos demostrar `P (k + 1)`,
-suponiendo `P k`.
-
-El caso base se desarrolla en el bloque `case zero =>`.
-Para el paso inductivo escribimos `case succ k ih =>`,
-donde `k` es el número natural e `ih` es el nombre que damos
-a la hipótesis de inducción `P k`.
+En el bloque `case zero =>` debemos demostrar `P 0`.
+En el bloque `case succ k ih =>` debemos demostrar `P (k + 1)`
+y disponemos de `ih : P k`, la hipótesis de inducción.
 
 Para una presentación más amplia de Lean pueden consultarse
 *Theorem Proving in Lean 4* [@tpil4] y

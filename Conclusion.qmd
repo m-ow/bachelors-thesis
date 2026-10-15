@@ -9,7 +9,7 @@ incluyendo las condiciones y los resultados auxiliares necesarios.
 Para la formalización utilizamos la representación *locally nameless*, siguiendo el trabajo de Charguéraud [@chargueraud2012]. 
 Definimos en Lean las operaciones de apertura, cierre y sustitución y demostramos las propiedades que utilizamos. 
 Entre las construcciones que retomamos de la literatura se encuentra la de cerrar un término con un nombre y después añadir una abstracción. 
-En nuestro desarrollo, el Lema 3.0.4 permite obtener de esta manera una reducción entre abstracciones:
+En nuestro desarrollo, el [Lema 3.0.4](Capitulo3.qmd#resultado-abs-close) permite obtener de esta manera una reducción entre abstracciones:
 $$
 \inferrule*[right=\textsc{abs-close}]
   {t \longrightarrow t'}
@@ -23,19 +23,20 @@ El lema justifica ese paso en nuestra formalización y reúne los detalles neces
 Así, al aplicarlo en la prueba transicional, podemos seguir el argumento matemático y reconocer cómo se expresa en Lean.
 
 Una continuación sería elaborar una prueba transicional de la confluencia de la reducción $\beta$. 
-Para ello, podríamos seguir el método de reducción paralela de Tait y Martin-Löf [@barendregt1984] y 
+Para ello, podríamos seguir el método de reducción paralela de Tait y Martin-Löf [@barendregt1984, pp. 59–62] y
 tomar como referencia formalizaciones existentes, como la de Nipkow [@nipkow2001].
 
-También podría desarrollarse una prueba transicional de la conmutación de $\beta$ y $\eta$, en el sentido de que: 
+También podría desarrollarse una prueba transicional de la conmutación de las clausuras reflexivas-transitivas
+de $\beta$ y $\eta$: si $M\twoheadrightarrow_\beta N_1$ y
+$M\twoheadrightarrow_\eta N_2$, entonces existe un término $Q$ tal que
 $$
-\text{si }
-M\longrightarrow_\beta N_1 \land 
-M\longrightarrow_\eta N_2
-\text{ entonces existe un término $Q$ tal que }
-N_1\longrightarrow_\eta Q \land 
-N_2\longrightarrow_\beta Q.
+N_1\twoheadrightarrow_\eta Q
+\qquad\text{y}\qquad
+N_2\twoheadrightarrow_\beta Q.
 $$
-Esta propiedad, junto con la confluencia de ambas reducciones, permite concluir la confluencia de $\beta\eta$.
+Aquí, $\twoheadrightarrow_\beta$ y $\twoheadrightarrow_\eta$ representan cero o más pasos de cada reducción.
+Esta propiedad, junto con la confluencia de ambas reducciones, permite concluir la confluencia de su unión, $\beta\eta$
+[@barendregt1984, pp. 64–67].
 
 En ambos casos, el objetivo sería conciliar los argumentos matemáticos con sus formalizaciones mediante 
 pruebas transicionales que hagan explícita la correspondencia entre sus pasos.

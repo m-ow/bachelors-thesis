@@ -63,7 +63,7 @@ nombres, pues los nombres se escriben como cadenas de caracteres.
 Las expresiones `∅`, `{x}`, `∪` y `∈` denotan, respectivamente, el
 conjunto vacío, un conjunto de un solo elemento, la unión y la
 pertenencia. Así, `fv t` es el conjunto finito de nombres que aparecen
-libres en `t`. Su implementación es:
+libres en `t`. Se define recursivamente por:
 $$
 \begin{array}{l c l}
 \operatorname{fv}(\mathsf{bvar}\, i) & \equiv & \emptyset \\ 
@@ -83,7 +83,7 @@ def fv (t : trm) : Finset String :=
   | abs u     => fv u
 ```
 
-\textbf{Lema 2.0.1.} Para todo conjunto finito de nombres $L$,
+[\textbf{Lema 2.0.1.}]{#resultado-nombre-nuevo} Para todo conjunto finito de nombres $L$,
 existe $x\notin L$.
 
 ::: {.proof}
@@ -92,8 +92,10 @@ Como $L$ es finito, no puede contenerlos todos.
 Por ello, existe $x\notin L$.^[Lean permite trabajar con o sin el axioma de elección.
 Mathlib lo utiliza habitualmente, como ocurre en muchas
 demostraciones de la matemática clásica, y la demostración formal
-que empleamos para este lema depende de él.]
+que empleamos para este lema depende de él [@tpil4, cap. 12].]
 :::
+
+\Needspace{6\baselineskip}
 
 Su enunciado en Lean es:
 
@@ -152,6 +154,8 @@ $k=0$:
 $$
 t^x \equiv \{ 0 \rightsquigarrow x \} \, t
 $$
+
+\Needspace{9\baselineskip}
 
 En Lean:
 
@@ -212,6 +216,8 @@ $$
 
 donde $L$ es algún conjunto finito de nombres.
 
+\Needspace{14\baselineskip}
+
 En Lean, esta definición se expresa de la siguiente manera:
 
 ```lean 
@@ -234,7 +240,7 @@ cerrado para todo nombre `x` que no pertenezca a `L`.
 La definición no incluye un constructor para términos de la forma `bvar i`, 
 pues un índice aislado no está ligado por ninguna abstracción y, por tanto, no es localmente cerrado.
 
-\textbf{Lema 2.2.1.} La apertura no modifica los términos
+[\textbf{Lema 2.2.1.}]{#resultado-apertura-clausura-local} La apertura no modifica los términos
 localmente cerrados. Es decir, si $t$ es localmente cerrado, entonces $\{k\rightsquigarrow x\}\,t=t$ para todo índice $k$ y todo nombre $x$.
 
 Esto se debe a que todos los índices de $t$ hacen referencia a abstracciones contenidas en el propio término, mientras que
@@ -264,7 +270,7 @@ En particular, dado un término $t$
 y un nombre $x$, permite construir el cuerpo de una
 abstracción que liga esas apariciones de $x$.
 
-Para definirla, utilizamos una operación auxiliar
+Para definir el cierre, utilizamos una operación auxiliar
 $\{k \leftsquigarrow x \} \, t$, donde $k$ indica el índice de de Bruijn que
 debe asignarse a las variables libres con nombre $x$. Se define
 recursivamente por
@@ -321,7 +327,7 @@ En este ejemplo, la aparición libre de `"x"` exterior se
 reemplaza por `0`, mientras que la situada dentro de la
 abstracción se reemplaza por `1`.
 
-\textbf{Lema 2.3.1.} Si $x\notin\operatorname{fv}(t)$,
+[\textbf{Lema 2.3.1.}]{#resultado-cierre-apertura} Si $x\notin\operatorname{fv}(t)$,
 entonces $(t^x)^{\backslash x}=t$.
 
 Como $x$ no aparece libre en $t$, todas las apariciones
@@ -338,14 +344,14 @@ lemma close_open_var {x : String} {t : trm} :
     (t ^ x) ^\ x = t
 ```
 
-\textbf{Lema 2.3.2.}
+[\textbf{Lema 2.3.2.}]{#resultado-apertura-inyectiva}
 Si $x$ no aparece libre en $t$ ni en $u$, la igualdad
 de sus aperturas $t^x=u^x$ implica que $t=u$.
 
 ::: {.proof}
 Al cerrar ambos lados de $t^x=u^x$ con $x$, obtenemos
 $(t^x)^{\backslash x}=(u^x)^{\backslash x}$.
-Por el Lema 2.3.1, el lado izquierdo es $t$
+Por el [Lema 2.3.1](Capitulo2.qmd#resultado-cierre-apertura), el lado izquierdo es $t$
 y el derecho es $u$.
 Por tanto, $t=u$.
 :::
@@ -386,6 +392,8 @@ $$
 \end{array}
 $$
 
+\Needspace{14\baselineskip}
+
 En Lean:
 
 ```lean
@@ -409,7 +417,7 @@ En efecto, no introduce nuevos índices,
 y los que ya aparecen en $t$ siguen ligados
 por las mismas abstracciones.
 
-\textbf{Lema 2.4.1.}
+[\textbf{Lema 2.4.1.}]{#resultado-apertura-cierre-sustitucion}
 Sea $t$ un término localmente cerrado.
 Cerrar $t$ con $x$ y abrir el resultado con $y$
 equivale a sustituir las apariciones libres de $x$

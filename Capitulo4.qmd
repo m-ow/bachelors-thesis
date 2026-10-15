@@ -20,7 +20,7 @@ que los desarrollan.
 
 ## 4.1. Reducciones con un mismo origen
 
-\textbf{Teorema 4.1.1.} 
+[\textbf{Teorema 4.1.1.}]{#resultado-eta-origen-comun}
 Si un término $m$ se reduce en un paso a $m_1$ y a $m_2$, entonces existe un término $m_3$ tal que
 $m_1\longrightarrow^{=}m_3$ y $m_2\longrightarrow^{=}m_3$.
 
@@ -69,7 +69,7 @@ y al paso $t\longrightarrow t_2$, obtenemos un término
 $t_3$ tal que $t_1\longrightarrow^{=}t_3$ y
 $t_2\longrightarrow^{=}t_3$.
 
-Como $z$ es localmente cerrado, el Lema 3.1.1,
+Como $z$ es localmente cerrado, el [Lema 3.1.1](Capitulo3.qmd#resultado-refl-app1),
 aplicado a $t_1\longrightarrow^{=}t_3$ y
 $t_2\longrightarrow^{=}t_3$, proporciona
 $\mathsf{app}\,t_1\,z\longrightarrow^{=}\mathsf{app}\,t_3\,z$
@@ -103,9 +103,9 @@ las dos relaciones requeridas.
       constructor
 ```
 
-Como $t\longrightarrow t_1$, el Lema 3.0.1 garantiza
+Como $t\longrightarrow t_1$, el [Lema 3.0.1](Capitulo3.qmd#resultado-regularidad) garantiza
 que $t_1$ es localmente cerrado.
-Por el Lema 3.1.2, para obtener
+Por el [Lema 3.1.2](Capitulo3.qmd#resultado-refl-app2), para obtener
 $\mathsf{app} \, t_1 \, z\longrightarrow^{=} \mathsf{app} \, t_1 \, z_1$,
 basta demostrar $z\longrightarrow^{=}z_1$.
 La regla \textsc{step}, aplicada a $z\longrightarrow z_1$,
@@ -116,9 +116,9 @@ proporciona esta relación.
         exact clos_refl.step z z₁ r_z_z₁
 ```
 
-Como $z\longrightarrow z_1$, el Lema 3.0.1 garantiza
+Como $z\longrightarrow z_1$, el [Lema 3.0.1](Capitulo3.qmd#resultado-regularidad) garantiza
 que $z_1$ es localmente cerrado.
-Por el Lema 3.1.1, para obtener
+Por el [Lema 3.1.1](Capitulo3.qmd#resultado-refl-app1), para obtener
 $\mathsf{app} \, t \, z_1\longrightarrow^{=} \mathsf{app} \, t_1 \, z_1$,
 basta demostrar $t\longrightarrow^{=}t_1$.
 La regla \textsc{step}, aplicada a $t\longrightarrow t_1$,
@@ -148,17 +148,17 @@ con $z\longrightarrow z_1$ y $t$ localmente cerrado.
 Tomamos $m_3=\mathsf{app} \, z_1 \, t_1$ y demostramos
 las dos relaciones requeridas.
 
-Como $t\longrightarrow t_1$, el Lema 3.0.1 garantiza
+Como $t\longrightarrow t_1$, el [Lema 3.0.1](Capitulo3.qmd#resultado-regularidad) garantiza
 que $t_1$ es localmente cerrado.
-Por el Lema 3.1.1, para obtener
+Por el [Lema 3.1.1](Capitulo3.qmd#resultado-refl-app1), para obtener
 $\mathsf{app} \, z \, t_1\longrightarrow^{=} \mathsf{app} \, z_1 \, t_1$,
 basta demostrar $z\longrightarrow^{=}z_1$.
 La regla \textsc{step}, aplicada a $z\longrightarrow z_1$,
 proporciona esta relación.
 
-Como $z\longrightarrow z_1$, el Lema 3.0.1 garantiza
+Como $z\longrightarrow z_1$, el [Lema 3.0.1](Capitulo3.qmd#resultado-regularidad) garantiza
 que $z_1$ es localmente cerrado.
-Por el Lema 3.1.2, para obtener
+Por el [Lema 3.1.2](Capitulo3.qmd#resultado-refl-app2), para obtener
 $\mathsf{app} \, z_1 \, t\longrightarrow^{=} \mathsf{app} \, z_1 \, t_1$,
 basta demostrar $t\longrightarrow^{=}t_1$.
 La regla \textsc{step}, aplicada a $t\longrightarrow t_1$,
@@ -171,7 +171,7 @@ y al paso $t\longrightarrow t_2$, obtenemos un término
 $t_3$ tal que $t_1\longrightarrow^{=}t_3$ y
 $t_2\longrightarrow^{=}t_3$.
 
-Como $z$ es localmente cerrado, el Lema 3.1.2,
+Como $z$ es localmente cerrado, el [Lema 3.1.2](Capitulo3.qmd#resultado-refl-app2),
 aplicado a $t_1\longrightarrow^{=}t_3$ y
 $t_2\longrightarrow^{=}t_3$, proporciona
 $\mathsf{app}\,z\,t_1\longrightarrow^{=}\mathsf{app}\,z\,t_3$
@@ -242,7 +242,7 @@ Tenemos $m_2=\mathsf{abs} \, u$ y un conjunto finito
 de nombres $L$ tal que
 $(\mathsf{app} \, t \, 0)^x\longrightarrow u^x$
 para todo $x\notin L$.
-Como $t$ es localmente cerrado, el Lema 3.2.1
+Como $t$ es localmente cerrado, el [Lema 3.2.1](Capitulo3.qmd#resultado-cuerpo-redex-eta)
 proporciona un término $t'$ tal que
 $t\longrightarrow t'$ y $u=\mathsf{app} \, t' \,0$.
 
@@ -271,7 +271,7 @@ Para la segunda, por la regla \textsc{step},
 basta demostrar
 $\mathsf{abs}\,(\mathsf{app}\,t'\,0)\longrightarrow t'$.
 Este paso se obtiene mediante \textsc{eta-red},
-pues el Lema 3.0.1, aplicado a $t\longrightarrow t'$,
+pues el [Lema 3.0.1](Capitulo3.qmd#resultado-regularidad), aplicado a $t\longrightarrow t'$,
 garantiza que $t'$ es localmente cerrado.
 
 ```lean 
@@ -311,7 +311,7 @@ Por tanto, tenemos
 $(\mathsf{app}\,m_2\,0)^x\longrightarrow t_1^x$
 para todo $x\notin L$.
 
-Aplicando el Lema 3.2.1 a la clausura local de $m_2$
+Aplicando el [Lema 3.2.1](Capitulo3.qmd#resultado-cuerpo-redex-eta) a la clausura local de $m_2$
 y a esta condición, obtenemos un término $t'$ tal que
 $m_2\longrightarrow t'$ y $t_1=\mathsf{app}\,t'\,0$.
 En la relación $\mathsf{abs}\,t_1\longrightarrow^{=}m_3$
@@ -326,7 +326,7 @@ Para la primera relación, por la regla \textsc{step}
 basta demostrar
 $\mathsf{abs}\,(\mathsf{app}\,t'\,0)\longrightarrow t'$.
 Este paso se obtiene mediante \textsc{eta-red},
-pues el Lema 3.0.1 aplicado a $m_2\longrightarrow t'$
+pues el [Lema 3.0.1](Capitulo3.qmd#resultado-regularidad) aplicado a $m_2\longrightarrow t'$
 establece que $t'$ es localmente cerrado.
 
 Para la segunda, aplicamos directamente la regla
@@ -351,7 +351,7 @@ Tenemos $m_2=\mathsf{abs} \, t_2$ y un conjunto finito
 de nombres $K$ tal que
 $t^y\longrightarrow t_2^y$ para todo $y\notin K$.
 
-Elegimos un nombre nuevo $x$.^[Utilizamos la convención establecida
+Sea $x$ un nombre nuevo.^[Utilizamos la convención establecida
 en el capítulo 2. En el código, `exists_fresh` proporciona un nombre
 fuera de la unión de los conjuntos que debemos evitar.
 La táctica `aesop` deduce entonces que ese nombre no pertenece
@@ -384,7 +384,7 @@ $t_2^x\longrightarrow^{=}t_3$.
       rcases ih x hf.2.1 (t₂ ^ x) r_t_t₂ with ⟨t₃, rl_t₁_t₃, rl_t₂_t₃⟩
 ```
 
-Aplicando el Lema 3.1.3 a
+Aplicando el [Lema 3.1.3](Capitulo3.qmd#resultado-refl-abs) a
 $t_1^x\longrightarrow^{=}t_3$ y
 $t_2^x\longrightarrow^{=}t_3$, obtenemos
 $\mathsf{abs}\,((t_1^x)^{\backslash x})
@@ -396,7 +396,7 @@ $\mathsf{abs}\,((t_2^x)^{\backslash x})
 \mathsf{abs}\,(t_3^{\backslash x})$.
 
 Como $x$ no aparece libre en $t_1$ ni en $t_2$,
-el Lema 2.3.1 proporciona
+el [Lema 2.3.1](Capitulo2.qmd#resultado-cierre-apertura) proporciona
 $(t_1^x)^{\backslash x}=t_1$ y
 $(t_2^x)^{\backslash x}=t_2$.
 Usando estas igualdades, obtenemos
@@ -429,7 +429,7 @@ como queríamos demostrar.
 
 ## 4.2. Confluencia de la reducción $\eta$
 
-\textbf{Teorema 4.2.1 (Teorema de Church-Rosser).} La reducción $\eta$ es confluente.
+[\textbf{Teorema 4.2.1 (Teorema de Church-Rosser).}]{#resultado-confluencia-eta} La reducción $\eta$ es confluente.
 
 ::: {.proof}
 Debemos demostrar que
@@ -447,8 +447,8 @@ es decir, que $\twoheadrightarrow$ tiene la propiedad
 del diamante.
 Notemos que
 $\twoheadrightarrow=(\longrightarrow^{=})^+$
-por el Lema 1.1.1.
-Así, por el Lema 1.2.1, basta demostrar que
+por el [Lema 1.1.1](Capitulo1.qmd#resultado-igualdad-clausuras).
+Así, por el [Lema 1.2.1](Capitulo1.qmd#resultado-diamante-clausura-transitiva), basta demostrar que
 $\longrightarrow^{=}$ tiene la propiedad del diamante.
 
 Sean entonces $m$, $m_1$ y $m_2$ términos tales que
@@ -485,7 +485,7 @@ a $m\longrightarrow m_1$.
 
 \textbf{Caso 2.2.} El término $m$ se reduce también
 a $m_2$ en un paso.
-Aplicando el Teorema 4.1.1 a
+Aplicando el [Teorema 4.1.1](Capitulo4.qmd#resultado-eta-origen-comun) a
 $m\longrightarrow m_1$ y $m\longrightarrow m_2$,
 obtenemos un término $m_3$ tal que
 $m_1\longrightarrow^{=}m_3$ y

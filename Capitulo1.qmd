@@ -1,5 +1,8 @@
 # Relaciones
 
+En este capítulo presentamos las nociones sobre relaciones que utilizaremos
+para demostrar la confluencia, siguiendo a Barendregt [@barendregt1984, secs. 3.1–3.2].
+
 En teoría de conjuntos se entiende una relación binaria $R$
 sobre un conjunto $A$ como un conjunto de pares ordenados, 
 de modo que $R(a,b)$ significa $(a,b) \in R$. 
@@ -122,7 +125,7 @@ inductive clos_refl_trans (R : relation X) : relation X
       clos_refl_trans R a c
 ```
 
-\textbf{Lema 1.1.1.} La clausura reflexiva-transitiva de toda relación 
+[\textbf{Lema 1.1.1.}]{#resultado-igualdad-clausuras} La clausura reflexiva-transitiva de toda relación
 es igual a la clausura transitiva de su clausura reflexiva.
 $$ R^* = (R^{=})^+ $$
 
@@ -212,7 +215,9 @@ def confluent (R : relation X) : Prop :=
   diamond (clos_refl_trans R)
 ```
 
-\textbf{Lema 1.2.1.} Si una relación $R$ tiene la propiedad del diamante,
+\Needspace{29\baselineskip}
+
+[\textbf{Lema 1.2.1.}]{#resultado-diamante-clausura-transitiva} Si una relación $R$ tiene la propiedad del diamante,
 entonces su clausura transitiva $R^+$ también la tiene.
 
 ::: {.proof}
@@ -222,8 +227,7 @@ Colocamos la primera en el borde superior de una cuadrícula
 y la segunda en el borde izquierdo.
 
 ```{=latex}
-\begin{figure}[htbp]
-\centering
+\begin{center}
 \begin{tikzpicture}[x=1.6cm, y=1.3cm]
   \coordinate (a)  at (0,0);
   \coordinate (a1) at (1,0);
@@ -277,7 +281,7 @@ y la segunda en el borde izquierdo.
   \fill (t) circle (1.5pt);
   \fill (d) circle (1.5pt) node[below right] {$d$};
 \end{tikzpicture}
-\end{figure}
+\end{center}
 ```
 
 En cada casilla, los bordes superior e izquierdo son dos

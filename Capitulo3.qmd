@@ -127,7 +127,7 @@ inductive eta : relation trm
       eta (abs t) (abs t')
 ```
 
-\textbf{Lema 3.0.1 (Lema de regularidad).}
+[\textbf{Lema 3.0.1 (Lema de regularidad).}]{#resultado-regularidad}
 Si $r\longrightarrow s$, entonces
 $\mathsf{lc}\,r$ y $\mathsf{lc}\,s$.
 
@@ -184,7 +184,7 @@ lemma eta_regular {r s : trm} :
     eta r s → lc r ∧ lc s
 ```
 
-\textbf{Lema 3.0.2.}
+[\textbf{Lema 3.0.2.}]{#resultado-eta-nombres-libres}
 La reducción $\eta$ no modifica el conjunto
 de nombres libres, es decir, si $r\longrightarrow s$,
 entonces $\operatorname{fv}(r)=\operatorname{fv}(s)$.
@@ -194,8 +194,8 @@ $\mathsf{abs}\,(\mathsf{app}\,t\,0)\longrightarrow t$,
 se elimina la abstracción exterior junto con la aparición
 de la variable que liga, representada por el índice $0$.
 Como $t$ es localmente cerrado, ninguno de sus índices
-hace referencia a esa abstracción,
-así, el paso conserva los nombres libres.
+hace referencia a esa abstracción.
+Así, el paso conserva los nombres libres.
 Las reglas de congruencia permiten realizar la reducción
 dentro de aplicaciones y abstracciones, conservando
 esta misma propiedad.
@@ -207,7 +207,7 @@ lemma eta_fv_eq {r s : trm} :
     eta r s → fv r = fv s
 ```
 
-\textbf{Lema 3.0.3.}
+[\textbf{Lema 3.0.3.}]{#resultado-eta-sustitucion-variable}
 La sustitución de una variable libre por otra conserva
 la reducción $\eta$, es decir, si $r\longrightarrow s$, entonces
 $$
@@ -235,6 +235,8 @@ $$
 El mismo razonamiento se aplica cuando el redex
 se encuentra dentro de una aplicación o una abstracción,
 mediante las reglas de congruencia.
+
+\Needspace{8\baselineskip}
 
 Su enunciado en Lean es:
 
@@ -267,7 +269,7 @@ informal con su formalización en Lean:
 a partir de $t\longrightarrow t'$, obtenemos una reducción
 entre las abstracciones construidas de esta manera.
 
-\textbf{Lema 3.0.4.} Para todo nombre $x$, se cumple:
+[\textbf{Lema 3.0.4.}]{#resultado-abs-close} Para todo nombre $x$, se cumple:
 $$
 \inferrule*[right=\textsc{abs-close}]
   {t \longrightarrow t'}
@@ -278,7 +280,7 @@ $$
 
 ::: {.proof}
 Supongamos que $t\longrightarrow t'$.
-Por el lema de regularidad, ambos términos son localmente cerrados.
+Por el [lema de regularidad](Capitulo3.qmd#resultado-regularidad), ambos términos son localmente cerrados.
 Queremos demostrar que
 $\mathsf{abs}\,(t^{\backslash x})
 \longrightarrow
@@ -291,13 +293,13 @@ $(t^{\backslash x})^y\longrightarrow(t'^{\backslash x})^y$
 para todo nombre $y$.
 
 Sea $y$ un nombre cualquiera.
-El Lema 3.0.3, aplicado a $t\longrightarrow t'$, proporciona
+El [Lema 3.0.3](Capitulo3.qmd#resultado-eta-sustitucion-variable), aplicado a $t\longrightarrow t'$, proporciona
 $$
 t[x:=\mathsf{fvar}\,y]
 \longrightarrow
 t'[x:=\mathsf{fvar}\,y].
 $$
-Como $t$ y $t'$ son localmente cerrados, el Lema 2.4.1
+Como $t$ y $t'$ son localmente cerrados, el [Lema 2.4.1](Capitulo2.qmd#resultado-apertura-cierre-sustitucion)
 nos da las igualdades
 $t[x:=\mathsf{fvar}\,y]=(t^{\backslash x})^y$
 y
@@ -326,7 +328,7 @@ lemma abs_close {t t' : trm} :
 Las reglas de congruencia de la reducción $\eta$ se extienden a su clausura reflexiva.
 A continuación presentamos las que utilizaremos en la demostración de la confluencia.
 
-\textbf{Lema 3.1.1.}
+[\textbf{Lema 3.1.1.}]{#resultado-refl-app1}
 $$
 \inferrule*[right=\textsc{refl-app-1}]
   {\mathsf{lc} \, t_2 \\ 
@@ -355,7 +357,7 @@ lemma refl_app1 {t₁ t₁' t₂ : trm} :
     clos_refl eta (app t₁ t₂) (app t₁' t₂)
 ```
 
-\textbf{Lema 3.1.2.}
+[\textbf{Lema 3.1.2.}]{#resultado-refl-app2}
 $$
 \inferrule*[right=\textsc{refl-app-2}]
   {\mathsf{lc} \, t_1 \\
@@ -384,7 +386,7 @@ lemma refl_app2 {t₁ t₂ t₂' : trm} :
     clos_refl eta (app t₁ t₂) (app t₁ t₂') 
 ```
 
-\textbf{Lema 3.1.3.} Para todo nombre $x$, se cumple:
+[\textbf{Lema 3.1.3.}]{#resultado-refl-abs} Para todo nombre $x$, se cumple:
 $$
 \inferrule*[right=\textsc{refl-abs}]
   {t \longrightarrow^{=} t'}
@@ -400,7 +402,7 @@ Si $t=t'$, las abstracciones
 $\mathsf{abs} \, (t^{\backslash x})$ y
 $\mathsf{abs} \, (t'^{\backslash x})$
 son iguales y aplicamos \textsc{refl}.
-Si $t\longrightarrow t'$, el Lema 3.0.4 
+Si $t\longrightarrow t'$, el [Lema 3.0.4](Capitulo3.qmd#resultado-abs-close)
 proporciona una reducción entre estas abstracciones.
 Aplicando \textsc{step}, obtenemos la conclusión.
 :::
@@ -474,7 +476,7 @@ El siguiente lema permite determinar la forma de su cuerpo
 a partir de la condición que exige la regla
 \textsc{eta-abs}.
 
-\textbf{Lema 3.2.1.} Sea $t$ un término localmente cerrado
+[\textbf{Lema 3.2.1.}]{#resultado-cuerpo-redex-eta} Sea $t$ un término localmente cerrado
 y sea $L$ un conjunto finito de nombres.
 Si $(\mathsf{app}\,t\,0)^x\longrightarrow u^x$
 para todo $x\notin L$, entonces existe un término $t'$
@@ -482,8 +484,7 @@ tal que $t\longrightarrow t'$ y
 $u=\mathsf{app}\,t'\,0$.
 
 ::: {.proof}
-Elegimos un nombre nuevo $x$.
-Como $x\notin L$, por hipótesis tenemos
+Sea $x$ un nombre nuevo, como $x\notin L$, por hipótesis tenemos
 $(\mathsf{app}\,t\,0)^x\longrightarrow u^x$.
 Como $t$ es localmente cerrado, al abrir
 $\mathsf{app}\,t\,0$ con $x$ obtenemos
@@ -499,7 +500,7 @@ $$
 u^x=\mathsf{app}\,t'\,(\mathsf{fvar}\,x).
 $$
 
-Como $t\longrightarrow t'$, el Lema 3.0.2 garantiza
+Como $t\longrightarrow t'$, el [Lema 3.0.2](Capitulo3.qmd#resultado-eta-nombres-libres) garantiza
 que el nombre nuevo $x$ tampoco aparece libre en $t'$.
 Cerrando la igualdad anterior con $x$, obtenemos
 $$
@@ -507,7 +508,7 @@ $$
 =
 (\mathsf{app}\,t'\,(\mathsf{fvar}\,x))^{\backslash x}.
 $$
-Por el Lema 2.3.1, $(u^x)^{\backslash x}=u$.
+Por el [Lema 2.3.1](Capitulo2.qmd#resultado-cierre-apertura), $(u^x)^{\backslash x}=u$.
 Además, como $x$ no aparece libre en $t'$, el cierre
 solo reemplaza $\mathsf{fvar}\,x$ por $0$ en la aplicación.
 Por tanto, $u=\mathsf{app}\,t'\,0$.
