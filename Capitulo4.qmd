@@ -267,12 +267,12 @@ $\mathsf{abs} \, (\mathsf{app} \, t' \, 0) \longrightarrow^{=}t'$.
 La primera relación se obtiene aplicando
 la regla \textsc{step} a $t\longrightarrow t'$.
 
-Para la segunda, como $t\longrightarrow t'$,
-el Lema 3.0.1 garantiza que $t'$ es localmente cerrado.
-La regla \textsc{eta-red} proporciona entonces
-$\mathsf{abs} \, (\mathsf{app} \, t' \,0)\longrightarrow t'$.
-Aplicando \textsc{step}, obtenemos
-$\mathsf{abs} \,(\mathsf{app} \, t' \,0) \longrightarrow^{=}t'$.
+Para la segunda, por la regla \textsc{step},
+basta demostrar
+$\mathsf{abs}\,(\mathsf{app}\,t'\,0)\longrightarrow t'$.
+Este paso se obtiene mediante \textsc{eta-red},
+pues el Lema 3.0.1, aplicado a $t\longrightarrow t'$,
+garantiza que $t'$ es localmente cerrado.
 
 ```lean 
       · exact clos_refl.step t t' r_t_t'
